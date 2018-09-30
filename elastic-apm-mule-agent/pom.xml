@@ -18,8 +18,11 @@
 
 		<aspectj.version>1.8.5</aspectj.version>
 		<springframework.version>4.1.9.RELEASE</springframework.version>
-		
+
 		<elastic-apm.version>0.7.0</elastic-apm.version>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 	<build>

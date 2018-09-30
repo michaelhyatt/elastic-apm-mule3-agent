@@ -42,7 +42,7 @@
         <!-- Reduce DM verbosity -->
         <AsyncLogger name="org.jetel" level="WARN"/>
         <AsyncLogger name="Tracking" level="WARN"/>
-        <AsyncLogger name="co.elastic" level="DEBUG"/>
+        <AsyncLogger name="co.elastic" level="WARN"/>
         
         <AsyncRoot level="INFO">
             <AppenderRef ref="file" />

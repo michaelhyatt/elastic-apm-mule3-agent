@@ -6,6 +6,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.mule.api.MuleEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import co.elastic.apm.api.Span;
 
 @Aspect
 public class ApmAdvice {
@@ -15,14 +18,18 @@ public class ApmAdvice {
 
 		MuleEvent muleEvent = (MuleEvent) pjp.getArgs()[0];
 
-		String flowName = null;
-		String stepName = null;
+		String id = muleEvent.getMessage().getMessageRootId();
+		String stepName = AnnotatedObjectUtils.getStepName(pjp);
+		String flowName = AnnotatedObjectUtils.getFlowName(muleEvent);
 
-		if (logger.isDebugEnabled()) {
-			stepName = AnnotatedObjectUtils.getStepName(pjp);
-			flowName = AnnotatedObjectUtils.getFlowName(muleEvent);
+		if (logger.isDebugEnabled())
 			logger.debug("BEFORE -> Flow: " + flowName + ", Step: " + stepName);
-		}
+
+		Span parentSpan = txMap.peek(id);
+		Span span = parentSpan.createSpan();
+		span.setName("SIMPLE_SPAN: " + flowName + ( stepName != null ? "/" + stepName : ""));
+		span.setType("step");
+		span.addTag("id", id);
 
 		// run the actual method
 		Object retVal = null;
@@ -31,14 +38,20 @@ public class ApmAdvice {
 			retVal = pjp.proceed();
 
 		} catch (Exception e) {
-
+			span.captureException(e);
+			throw e;
 		}
 
 		if (logger.isDebugEnabled())
 			logger.debug("AFTER -> Flow: " + flowName + ", Step: " + stepName);
+		
+		span.end();
 
 		return retVal;
 	}
+
+	@Autowired
+	private TransactionStackMap txMap;
 
 	private Logger logger = LoggerFactory.getLogger(ApmAdvice.class);
 
