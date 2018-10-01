@@ -12,9 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
-import co.elastic.apm.api.ElasticApm;
-import co.elastic.apm.api.Span;
-import co.elastic.apm.api.Transaction;
+import co.elastic.apm.impl.ElasticApmTracer;
+import co.elastic.apm.impl.transaction.AbstractSpan;
+import co.elastic.apm.impl.transaction.Span;
+import co.elastic.apm.impl.transaction.Transaction;
+
 
 @Configuration
 public class FlowListenerRegistrar {
@@ -39,16 +41,16 @@ public class FlowListenerRegistrar {
 					debug(" - PROCESS_START", id, notification);
 					
 					if (txMap.depth(id) == 0) {
-						Transaction transaction = ElasticApm.startTransaction();
-						transaction.setName("TOP: " + flowName);
-						transaction.setType(Transaction.TYPE_REQUEST);
+						Transaction transaction = tracer.startTransaction();
+						transaction.setName("Flow: " + flowName);
+						transaction.withType(Transaction.TYPE_REQUEST);
 						transaction.addTag("id", id);
 						txMap.put(id, transaction);
 					} else {
-						Span parentSpan = txMap.peek(id);
+						AbstractSpan<?> parentSpan = txMap.peek(id);
 						Span span = parentSpan.createSpan();
-						span.setName("SPAN: " + flowName);
-						span.setType("flow");
+						span.setName("Flow: " + flowName);
+						span.withType("flow");
 						span.addTag("id", id);
 						txMap.put(id, span);
 					}
@@ -89,6 +91,9 @@ public class FlowListenerRegistrar {
 	
 	@Autowired
 	private TransactionStackMap txMap;
+	
+	@Autowired
+	private ElasticApmTracer tracer;
 
 	private Logger logger = LoggerFactory.getLogger(FlowListenerRegistrar.class);
 

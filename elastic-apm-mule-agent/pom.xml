@@ -157,7 +157,7 @@
 		</dependency>
 		<dependency>
 			<groupId>co.elastic.apm</groupId>
-			<artifactId>apm-agent-api</artifactId>
+			<artifactId>elastic-apm-agent</artifactId>
 			<version>${elastic-apm.version}</version>
 		</dependency>
 	</dependencies>
