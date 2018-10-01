@@ -40,13 +40,11 @@ public class TransactionStackMap {
 	}
 
 	public int depth(String key) {
-		Stack<AbstractSpan<?>> value = map.get(key);
+		
+		if (map.containsKey(key))
+			return map.get(key).size();
 
-		if (value == null)
-			return 0;
-
-		return value.size();
-
+		return 0;
 	}
 
 	public AbstractSpan<?> peek(String key) {
