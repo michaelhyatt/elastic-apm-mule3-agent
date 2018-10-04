@@ -16,7 +16,7 @@ public class SpanUtils {
 		Span parentSpan = txMap.peek(messageId);
 		Span span = parentSpan.createSpan();
 		span.setName(AnnotatedObjectUtils.getProcessorName(notification));
-		span.setType("step");
+		span.setType(AnnotatedObjectUtils.getProcessorType(notification));
 		txMap.put(messageId, span);
 
 	}
