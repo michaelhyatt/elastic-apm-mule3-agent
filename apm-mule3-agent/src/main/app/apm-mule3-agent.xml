@@ -13,11 +13,14 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
     </spring:beans>
     <flow name="apm-mule3-agentFlow">
         <http:listener config-ref="HTTP_Listener_Configuration" path="/" doc:name="HTTP"/>
-        <logger level="INFO" doc:name="Logger"/>
+        <logger level="INFO" doc:name="Logger1"/>
         <flow-ref name="apm-mule3-agentFlow1" doc:name="Flow Reference"/>
-        <logger level="INFO" doc:name="Logger"/>
+        <logger level="INFO" doc:name="Logger2"/>
+        <scripting:component doc:name="Groovy">
+            <scripting:script engine="Groovy"><![CDATA[print "hello"]]></scripting:script>
+        </scripting:component>
     </flow>
     <flow name="apm-mule3-agentFlow1">
-        <logger level="INFO" doc:name="Logger"/>
+        <logger level="INFO" doc:name="Logger1.5"/>
     </flow>
 </mule>
