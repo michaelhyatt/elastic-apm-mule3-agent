@@ -11,8 +11,8 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 			class="co.elastic.apm.mule.utils.TransactionStackMap" />
 		<spring:bean id="transactionUtils"
 			class="co.elastic.apm.mule.utils.TransactionUtils" />
-		<spring:bean id="spanUtils"
-			class="co.elastic.apm.mule.utils.SpanUtils" />
+		<spring:bean id="spanUtils" class="co.elastic.apm.mule.utils.SpanUtils" />
+
 		<spring:bean id="traceMessageProcessorNotificationListener"
 			class="listeners.TraceMessageProcessorNotificationListener" />
 		<spring:bean id="tracePipelineMessageNotificationListener"
