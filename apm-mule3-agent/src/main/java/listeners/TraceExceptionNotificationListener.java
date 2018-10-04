@@ -2,15 +2,14 @@ package listeners;
 
 import org.mule.api.context.notification.ExceptionNotificationListener;
 import org.mule.context.notification.ExceptionNotification;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import co.elastic.apm.mule.utils.ExceptionUtils;
 
 public class TraceExceptionNotificationListener implements ExceptionNotificationListener<ExceptionNotification>{
 
 	@Override
 	public void onNotification(ExceptionNotification notification) {
-		logger.debug(notification.getActionName());
+		ExceptionUtils.captureException(notification);
 	}
 
-	private Logger logger = LoggerFactory.getLogger(TraceExceptionNotificationListener.class);
 }

@@ -2,15 +2,31 @@ package listeners;
 
 import org.mule.api.context.notification.PipelineMessageNotificationListener;
 import org.mule.context.notification.PipelineMessageNotification;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class TracePipelineMessageNotificationListener implements PipelineMessageNotificationListener <PipelineMessageNotification>{
+import co.elastic.apm.mule.utils.TransactionUtils;
+
+public class TracePipelineMessageNotificationListener
+		implements PipelineMessageNotificationListener<PipelineMessageNotification> {
 
 	@Override
 	public void onNotification(PipelineMessageNotification notification) {
-		logger.debug(notification.getActionName());
+
+		switch (notification.getAction()) {
+		case PipelineMessageNotification.PROCESS_START:
+			transactionUtils.startTransactionIfNone(notification);
+			break;
+
+		case PipelineMessageNotification.PROCESS_END:
+			transactionUtils.endTransactionIfNeeded(notification);
+			break;
+
+		case PipelineMessageNotification.PROCESS_COMPLETE:
+			break;
+		}
 	}
 
-	private Logger logger = LoggerFactory.getLogger(TracePipelineMessageNotificationListener.class);
+	@Autowired
+	private TransactionUtils transactionUtils;
+
 }

@@ -14,8 +14,10 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
     <flow name="apm-mule3-agentFlow">
         <http:listener config-ref="HTTP_Listener_Configuration" path="/" doc:name="HTTP"/>
         <logger level="INFO" doc:name="Logger"/>
-        <scripting:component doc:name="Groovy">
-            <scripting:script engine="Groovy"><![CDATA[throw new Exception("what is going on here")]]></scripting:script>
-        </scripting:component>
+        <flow-ref name="apm-mule3-agentFlow1" doc:name="Flow Reference"/>
+        <logger level="INFO" doc:name="Logger"/>
+    </flow>
+    <flow name="apm-mule3-agentFlow1">
+        <logger level="INFO" doc:name="Logger"/>
     </flow>
 </mule>
