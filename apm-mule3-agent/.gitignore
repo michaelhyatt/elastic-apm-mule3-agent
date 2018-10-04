@@ -46,3 +46,4 @@ local.properties
 flows/
 target/*
 src/main/api/.repository/ 
+/target/

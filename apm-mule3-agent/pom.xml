@@ -15,6 +15,12 @@
 
 		<mule.version>3.9.0</mule.version>
 		<mule.tools.version>1.2</mule.tools.version>
+
+		<elastic-apm.version>0.7.0</elastic-apm.version>
+		<version.byte-buddy>1.8.14</version.byte-buddy>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 	<build>
@@ -127,6 +133,16 @@
 			<artifactId>mule-module-http</artifactId>
 			<version>${mule.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>co.elastic.apm</groupId>
+			<artifactId>elastic-apm-agent</artifactId>
+			<version>${elastic-apm.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy-agent</artifactId>
+			<version>${version.byte-buddy}</version>
 		</dependency>
 	</dependencies>
 

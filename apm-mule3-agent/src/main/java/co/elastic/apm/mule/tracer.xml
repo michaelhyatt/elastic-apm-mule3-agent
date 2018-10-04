@@ -5,6 +5,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 	<spring:beans>
+		<spring:bean id="apmClient" class="co.elastic.apm.mule.ApmClient"
+			init-method="initElasticApmInstrumentation" />
 		<spring:bean id="traceMessageProcessorNotificationListener"
 			class="listeners.TraceMessageProcessorNotificationListener" />
 		<spring:bean id="tracePipelineMessageNotificationListener"
