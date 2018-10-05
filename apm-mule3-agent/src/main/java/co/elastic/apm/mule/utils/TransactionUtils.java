@@ -38,6 +38,7 @@ public class TransactionUtils {
 		String name = AnnotatedObjectUtils.getFlowName(notification);
 		transaction.setName(name);
 		transaction.setType(Transaction.TYPE_REQUEST);
+		transaction.addTag("messageId", messageId);
 		txMap.put(messageId, transaction);
 
 	}
