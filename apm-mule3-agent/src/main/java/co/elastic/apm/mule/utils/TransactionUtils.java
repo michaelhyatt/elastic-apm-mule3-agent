@@ -1,7 +1,10 @@
 package co.elastic.apm.mule.utils;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.mule.api.MuleEvent;
+import org.mule.api.MuleMessage;
 import org.mule.context.notification.PipelineMessageNotification;
+import org.mule.module.http.internal.ParameterMap;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import co.elastic.apm.api.ElasticApm;
@@ -30,7 +33,9 @@ public class TransactionUtils {
 	public void startTransactionIfNone(PipelineMessageNotification notification) {
 
 		// Only start transaction for the first encountered flow
-		String messageId = getMessageId(notification);
+		MuleMessage muleMessage = getMuleMessage(notification);
+		String messageId = muleMessage.getMessageRootId();
+
 		if (txMap.depth(messageId) > 0)
 			return;
 
@@ -38,7 +43,11 @@ public class TransactionUtils {
 		String name = AnnotatedObjectUtils.getFlowName(notification);
 		transaction.setName(name);
 		transaction.setType(Transaction.TYPE_REQUEST);
+
+		PropertyUtils.getInputProperties(muleMessage).forEach((pair) -> updateProperties(pair, transaction, "in"));
+
 		transaction.addTag("messageId", messageId);
+
 		txMap.put(messageId, transaction);
 
 	}
@@ -50,15 +59,43 @@ public class TransactionUtils {
 	 * @param notification
 	 */
 	public void endTransactionIfNeeded(PipelineMessageNotification notification) {
-		String messageId = getMessageId(notification);
+		MuleMessage muleMessage = getMuleMessage(notification);
+		String messageId = muleMessage.getMessageRootId();
 
 		// Only terminate the last top level flow transaction
-		if (txMap.depth(messageId) == 1)
-			txMap.get(messageId).end();
+		if (txMap.depth(messageId) == 1) {
+			Transaction transaction = (Transaction) txMap.get(messageId);
+			PropertyUtils.getOutputProperties(muleMessage)
+					.forEach((pair) -> updateProperties(pair, transaction, "out"));
+			transaction.end();
+		}
 	}
 
-	private String getMessageId(PipelineMessageNotification notification) {
-		return ((MuleEvent) notification.getSource()).getMessage().getMessageRootId();
+	private MuleMessage getMuleMessage(PipelineMessageNotification notification) {
+		return ((MuleEvent) notification.getSource()).getMessage();
+	}
+
+	private void updateProperties(ImmutablePair<String, Object> pair, Transaction transaction, String prefix) {
+
+		String key = pair.getLeft();
+
+		Object value = pair.getRight();
+		String stringValue;
+
+		if (value instanceof String) {
+			stringValue = (String) value;
+			transaction.addTag(prefix + ":" + key, stringValue);
+
+		} else if (value instanceof ParameterMap) {
+			ParameterMap map = (ParameterMap) value;
+
+			map.keySet().stream().forEach((key2) -> transaction.addTag(prefix + ":" + key + ":" + key2, map.get(key2)));
+
+		} else {
+			stringValue = "???";
+			transaction.addTag(prefix + ":" + key, stringValue);
+		}
+
 	}
 
 }

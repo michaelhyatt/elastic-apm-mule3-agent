@@ -22,6 +22,7 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
 if (num == 5)
    throw new Exception("it is 5, my dudes!")]]></scripting:script>
         </scripting:component>
+        <set-property propertyName="http.response" value="201" doc:name="Property"/>
     </flow>
     <flow name="apm-mule3-agentFlow1">
         <logger level="INFO" doc:name="Logger1.5"/>
