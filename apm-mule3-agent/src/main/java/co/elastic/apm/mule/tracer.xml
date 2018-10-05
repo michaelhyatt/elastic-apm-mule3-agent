@@ -14,11 +14,11 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 		<spring:bean id="spanUtils" class="co.elastic.apm.mule.utils.SpanUtils" />
 
 		<spring:bean id="traceMessageProcessorNotificationListener"
-			class="listeners.TraceMessageProcessorNotificationListener" />
+			class="co.elastic.apm.mule.listeners.TraceMessageProcessorNotificationListener" />
 		<spring:bean id="tracePipelineMessageNotificationListener"
-			class="listeners.TracePipelineMessageNotificationListener" />
+			class="co.elastic.apm.mule.listeners.TracePipelineMessageNotificationListener" />
 		<spring:bean id="traceExceptionNotificationListener"
-			class="listeners.TraceExceptionNotificationListener" />
+			class="co.elastic.apm.mule.listeners.TraceExceptionNotificationListener" />
 	</spring:beans>
 
 	<notifications>

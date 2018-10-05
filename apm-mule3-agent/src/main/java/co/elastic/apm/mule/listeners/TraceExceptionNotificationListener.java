@@ -1,4 +1,4 @@
-package listeners;
+package co.elastic.apm.mule.listeners;
 
 import org.mule.api.context.notification.ExceptionNotificationListener;
 import org.mule.context.notification.ExceptionNotification;

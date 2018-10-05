@@ -1,4 +1,4 @@
-package listeners;
+package co.elastic.apm.mule.listeners;
 
 import org.mule.api.context.notification.MessageProcessorNotificationListener;
 import org.mule.context.notification.MessageProcessorNotification;
