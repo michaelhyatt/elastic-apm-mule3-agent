@@ -6,6 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import co.elastic.apm.mule.utils.SpanUtils;
 
+/**
+ * @author michaelhyatt
+ * 
+ *         Listener for MessageProcessor notifications, corresponds to start and
+ *         finish of flow step execution.
+ *
+ */
 public class TraceMessageProcessorNotificationListener
 		implements MessageProcessorNotificationListener<MessageProcessorNotification> {
 
@@ -25,7 +32,7 @@ public class TraceMessageProcessorNotificationListener
 			break;
 		}
 	}
-	
+
 	@Autowired
 	private SpanUtils spanUtils;
 

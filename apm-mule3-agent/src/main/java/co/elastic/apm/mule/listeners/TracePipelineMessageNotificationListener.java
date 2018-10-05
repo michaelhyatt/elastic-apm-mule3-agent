@@ -6,6 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import co.elastic.apm.mule.utils.TransactionUtils;
 
+/**
+ * @author michaelhyatt
+ *
+ *         Listener for flow start and stop events.
+ */
 public class TracePipelineMessageNotificationListener
 		implements PipelineMessageNotificationListener<PipelineMessageNotification> {
 
@@ -22,6 +27,7 @@ public class TracePipelineMessageNotificationListener
 			break;
 
 		case PipelineMessageNotification.PROCESS_COMPLETE:
+			// Ignored, as it is skipped when flow exception is thrown
 			break;
 		}
 	}

@@ -7,11 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import co.elastic.apm.api.ElasticApm;
 import co.elastic.apm.api.Transaction;
 
+/**
+ * @author michaelhyatt
+ * 
+ *         Handling of transaction starts and ends. This implementation only
+ *         starts a transaction for the very first flow invocation for a
+ *         particular MuleMessage. It ignores other nested flows, if a
+ *         transaction was already created.
+ *
+ */
 public class TransactionUtils {
 
 	@Autowired
 	private TransactionStackMap txMap;
 
+	/**
+	 * Starts {@link co.elastic.apm.api.Transaction}, if none exists for a given
+	 * rootMessageId
+	 * 
+	 * @param notification
+	 */
 	public void startTransactionIfNone(PipelineMessageNotification notification) {
 
 		// Only start transaction for the first encountered flow
@@ -27,6 +42,12 @@ public class TransactionUtils {
 
 	}
 
+	/**
+	 * Only ends the very last {@link co.elastic.apm.api.Transaction} in the Stack,
+	 * ignoring the rest.
+	 * 
+	 * @param notification
+	 */
 	public void endTransactionIfNeeded(PipelineMessageNotification notification) {
 		String messageId = getMessageId(notification);
 

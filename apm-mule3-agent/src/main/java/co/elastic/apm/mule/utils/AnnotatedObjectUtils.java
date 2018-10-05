@@ -7,6 +7,10 @@ import org.mule.api.MuleEvent;
 import org.mule.api.context.notification.ServerNotification;
 import org.mule.context.notification.MessageProcessorNotification;
 
+/**
+ * @author michaelhyatt
+ *
+ */
 public class AnnotatedObjectUtils {
 
 	private static final String SOURCE_ELEMENT = "sourceElement";

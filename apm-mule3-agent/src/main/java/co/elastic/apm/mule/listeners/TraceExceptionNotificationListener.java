@@ -5,7 +5,13 @@ import org.mule.context.notification.ExceptionNotification;
 
 import co.elastic.apm.mule.utils.ExceptionUtils;
 
-public class TraceExceptionNotificationListener implements ExceptionNotificationListener<ExceptionNotification>{
+/**
+ * @author michaelhyatt
+ * 
+ *         Flow exception notification listener
+ *
+ */
+public class TraceExceptionNotificationListener implements ExceptionNotificationListener<ExceptionNotification> {
 
 	@Override
 	public void onNotification(ExceptionNotification notification) {

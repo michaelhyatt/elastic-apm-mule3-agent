@@ -6,6 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import co.elastic.apm.api.Span;
 
+/**
+ * @author michaelhyatt
+ * 
+ *         Handling of flow step starts and ends.
+ *
+ */
 public class SpanUtils {
 
 	@Autowired
