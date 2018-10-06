@@ -44,7 +44,8 @@ public class TransactionUtils {
 		transaction.setName(name);
 		transaction.setType(Transaction.TYPE_REQUEST);
 
-		PropertyUtils.getInputProperties(muleMessage).forEach((pair) -> updateProperties(pair, transaction, "in"));
+		if (PropertyUtils.isInputPropertyCaptureEnabled())
+			PropertyUtils.getInputProperties(muleMessage).forEach((pair) -> updateProperties(pair, transaction, "in"));
 
 		transaction.addTag("messageId", messageId);
 
@@ -65,8 +66,11 @@ public class TransactionUtils {
 		// Only terminate the last top level flow transaction
 		if (txMap.depth(messageId) == 1) {
 			Transaction transaction = (Transaction) txMap.get(messageId);
-			PropertyUtils.getOutputProperties(muleMessage)
-					.forEach((pair) -> updateProperties(pair, transaction, "out"));
+
+			if (PropertyUtils.isOutputPropertyCaptureEnabled())
+				PropertyUtils.getOutputProperties(muleMessage)
+						.forEach((pair) -> updateProperties(pair, transaction, "out"));
+
 			transaction.end();
 		}
 	}

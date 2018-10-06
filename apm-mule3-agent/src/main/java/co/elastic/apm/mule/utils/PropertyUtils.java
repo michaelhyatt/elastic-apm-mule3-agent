@@ -36,4 +36,13 @@ public class PropertyUtils {
 		return muleMessage.getOutboundPropertyNames().stream()
 				.map((x) -> new ImmutablePair<String, Object>(x, muleMessage.getOutboundProperty(x)));
 	}
+
+	public static boolean isInputPropertyCaptureEnabled() {
+		return Boolean.getBoolean("elastic.apm.mule.capture_input_properties");
+	}
+
+	public static boolean isOutputPropertyCaptureEnabled() {
+		return Boolean.getBoolean("elastic.apm.mule.capture_output_properties");
+
+	}
 }
