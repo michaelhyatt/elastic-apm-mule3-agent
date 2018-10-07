@@ -134,6 +134,8 @@
 			<version>${mule.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- Elastic APM dependencies -->
 		<dependency>
 			<groupId>co.elastic.apm</groupId>
 			<artifactId>elastic-apm-agent</artifactId>
@@ -149,7 +151,15 @@
 			<artifactId>byte-buddy-agent</artifactId>
 			<version>${version.byte-buddy}</version>
 		</dependency>
+		<!-- testing dependencies -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>1.10.19</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+
 
 	<repositories>
 		<repository>
