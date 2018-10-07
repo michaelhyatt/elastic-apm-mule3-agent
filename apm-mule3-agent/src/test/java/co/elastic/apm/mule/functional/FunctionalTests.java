@@ -25,22 +25,16 @@ import co.elastic.apm.report.Reporter;
 import net.bytebuddy.agent.ByteBuddyAgent;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SimpleFunctionalTest1 extends FunctionalTestCase {
-
-	private Span span;
-	private Transaction tx;
-	
-	@Mock
-	private Reporter reporter;
+public class FunctionalTests extends FunctionalTestCase {
 
 	@Test
 	public void simpleFlowSendsOneTransaction() throws Exception {
-
+	
 		runFlow("test1Flow");
-
+	
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Span.class));
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
-
+	
 		assertEquals("test1Flow", tx.getName().toString());
 		assertEquals("Logger", span.getName().toString());
 	}
@@ -57,10 +51,10 @@ public class SimpleFunctionalTest1 extends FunctionalTestCase {
 		System.setProperty("elastic.apm.mule.capture_input_properties_regex", "testPro(.*)");
 		
 		runFlow("test1Flow", msg);
-
+	
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Span.class));
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
-
+	
 		assertEquals("test1Flow", tx.getName().toString());
 		
 		// Logged property
@@ -71,6 +65,12 @@ public class SimpleFunctionalTest1 extends FunctionalTestCase {
 		
 		assertEquals("Logger", span.getName().toString());
 	}
+
+	private Span span;
+	private Transaction tx;
+	
+	@Mock
+	private Reporter reporter;
 
 	@Before
 	public void setup() {
