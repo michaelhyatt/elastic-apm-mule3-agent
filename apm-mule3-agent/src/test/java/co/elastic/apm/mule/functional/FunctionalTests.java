@@ -79,8 +79,11 @@ public class FunctionalTests extends FunctionalTestCase {
 
 		assertEquals("test2Flow", tx.getName().toString());
 		assertEquals("Logger", spans.get(0).getName().toString());
+		assertEquals("logger", spans.get(0).getType().toString());
 		assertEquals("Groovy", spans.get(1).getName().toString());
+		assertEquals("scripting:component", spans.get(1).getType().toString());
 		assertEquals("VM", spans.get(2).getName().toString());
+		assertEquals("vm:outbound-endpoint", spans.get(2).getType().toString());
 	}
 
 	private List<Span> spans = new ArrayList<Span>();
