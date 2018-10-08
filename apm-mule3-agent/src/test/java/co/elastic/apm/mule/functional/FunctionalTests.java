@@ -24,6 +24,7 @@ import co.elastic.apm.bci.ElasticApmAgent;
 import co.elastic.apm.impl.ElasticApmTracerBuilder;
 import co.elastic.apm.impl.transaction.Span;
 import co.elastic.apm.impl.transaction.Transaction;
+import co.elastic.apm.mule.utils.PropertyUtils;
 import co.elastic.apm.report.Reporter;
 import net.bytebuddy.agent.ByteBuddyAgent;
 
@@ -50,8 +51,8 @@ public class FunctionalTests extends FunctionalTestCase {
 		msg.setProperty("testProp", "testValue", PropertyScope.INBOUND, DataType.STRING_DATA_TYPE);
 		msg.setProperty("not_testProp", "testValue", PropertyScope.INBOUND, DataType.STRING_DATA_TYPE);
 		msg.setPayload("TEST", DataType.STRING_DATA_TYPE);
-		System.setProperty("elastic.apm.mule.capture_input_properties", "true");
-		System.setProperty("elastic.apm.mule.capture_input_properties_regex", "testPro(.*)");
+		System.setProperty(PropertyUtils.ELASTIC_APM_MULE_CAPTURE_INPUT_PROPERTIES, "true");
+		System.setProperty(PropertyUtils.ELASTIC_APM_MULE_CAPTURE_INPUT_PROPERTIES_REGEX, "testPro(.*)");
 
 		runFlow("test1Flow", msg);
 
@@ -70,20 +71,28 @@ public class FunctionalTests extends FunctionalTestCase {
 	}
 
 	@Test
-	public void testFlowWith3steps() throws Exception {
+	public void testFlowWith4steps() throws Exception {
+
+		System.setProperty(PropertyUtils.ELASTIC_APM_MULE_CAPTURE_OUTPUT_PROPERTIES, "true");
+		System.setProperty(PropertyUtils.ELASTIC_APM_MULE_CAPTURE_OUTPUT_PROPERTIES_REGEX, "http(.*)");
 
 		runFlow("test2Flow");
 
-		Mockito.verify(reporter, Mockito.times(3)).report(Mockito.any(Span.class));
+		Mockito.verify(reporter, Mockito.times(4)).report(Mockito.any(Span.class));
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
-
+		
 		assertEquals("test2Flow", tx.getName().toString());
+		
 		assertEquals("Logger", spans.get(0).getName().toString());
 		assertEquals("logger", spans.get(0).getType().toString());
 		assertEquals("Groovy", spans.get(1).getName().toString());
 		assertEquals("scripting:component", spans.get(1).getType().toString());
 		assertEquals("VM", spans.get(2).getName().toString());
 		assertEquals("vm:outbound-endpoint", spans.get(2).getType().toString());
+		assertEquals("Property", spans.get(3).getName().toString());
+		assertEquals("set-property", spans.get(3).getType().toString());
+		
+		assertEquals("201", tx.getContext().getTags().get("out:http.response"));
 	}
 
 	private List<Span> spans = new ArrayList<Span>();

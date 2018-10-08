@@ -13,6 +13,11 @@ import org.mule.api.MuleMessage;
  */
 public class PropertyUtils {
 
+	public static final String ELASTIC_APM_MULE_CAPTURE_OUTPUT_PROPERTIES = "elastic.apm.mule.capture_output_properties";
+	public static final String ELASTIC_APM_MULE_CAPTURE_INPUT_PROPERTIES = "elastic.apm.mule.capture_input_properties";
+	public static final String ELASTIC_APM_MULE_CAPTURE_OUTPUT_PROPERTIES_REGEX = "elastic.apm.mule.capture_output_properties_regex";
+	public static final String ELASTIC_APM_MULE_CAPTURE_INPUT_PROPERTIES_REGEX = "elastic.apm.mule.capture_input_properties_regex";
+
 	/**
 	 * Returns a stream of pairs (key, value) for all input properties of the
 	 * MuleMessage
@@ -23,20 +28,6 @@ public class PropertyUtils {
 	public static Stream<ImmutablePair<String, Object>> getInputProperties(MuleMessage muleMessage) {
 		return muleMessage.getInboundPropertyNames().stream().filter((x) -> filterInputProperties(x))
 				.map((x) -> new ImmutablePair<String, Object>(x, muleMessage.getInboundProperty(x)));
-	}
-
-	private static boolean filterInputProperties(String x) {
-		String regex = System.getProperty("elastic.apm.mule.capture_input_properties_regex");
-		if (regex == null)
-			return false;
-		return x.matches(regex);
-	}
-
-	private static boolean filterOutputProperties(String x) {
-		String regex = System.getProperty("elastic.apm.mule.capture_output_properties_regex");
-		if (regex == null)
-			return false;
-		return x.matches(regex);
 	}
 
 	/**
@@ -52,11 +43,25 @@ public class PropertyUtils {
 	}
 
 	public static boolean isInputPropertyCaptureEnabled() {
-		return Boolean.getBoolean("elastic.apm.mule.capture_input_properties");
+		return Boolean.getBoolean(ELASTIC_APM_MULE_CAPTURE_INPUT_PROPERTIES);
 	}
 
 	public static boolean isOutputPropertyCaptureEnabled() {
-		return Boolean.getBoolean("elastic.apm.mule.capture_output_properties");
+		return Boolean.getBoolean(ELASTIC_APM_MULE_CAPTURE_OUTPUT_PROPERTIES);
 
+	}
+
+	private static boolean filterInputProperties(String x) {
+		String regex = System.getProperty(ELASTIC_APM_MULE_CAPTURE_INPUT_PROPERTIES_REGEX);
+		if (regex == null)
+			return false;
+		return x.matches(regex);
+	}
+
+	private static boolean filterOutputProperties(String x) {
+		String regex = System.getProperty(ELASTIC_APM_MULE_CAPTURE_OUTPUT_PROPERTIES_REGEX);
+		if (regex == null)
+			return false;
+		return x.matches(regex);
 	}
 }
