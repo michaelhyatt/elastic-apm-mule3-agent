@@ -17,6 +17,12 @@ Download the code by `git clone https://github.com/michaelhyatt/elastic-apm-mule
 ```
 
 ### Mule flow
+Add the tracer to the main Mule flow. This import will ensure all the relevant modules for tracing will get loaded and connection will be made to your Elastic APM server:
+```xml
+<spring:beans>
+    <spring:import resource="classpath:co/elastic/apm/mule/tracer.xml"/>
+</spring:beans>
+```
 
 ### Mule property configuration
 
