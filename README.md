@@ -25,6 +25,26 @@ Add the tracer to the main Mule flow. This import will ensure all the relevant m
 ```
 
 ### Mule property configuration
+Make sure to add the following configuration options to your `mule-app.properties` file configuring your Mule application:
+```properties
+# Elastic Apm Java client properties
+elastic.apm.log_level=INFO
+elastic.apm.instrument=true
+elastic.apm.active=true
+elastic.apm.server_urls=http://localhost:8200
+elastic.apm.application_packages=
+elastic.apm.service_name=my-cool-service
+elastic.apm.service_version=v1.0.0
+elastic.apm.stack_trace_limit=3
+elastic.apm.span_frames_min_duration=0ms
+
+# Mule apm specific properties
+elastic.apm.mule.capture_input_properties=true
+elastic.apm.mule.capture_input_properties_regex=http_(.*)
+
+elastic.apm.mule.capture_output_properties=true
+elastic.apm.mule.capture_output_properties_regex=(.*)
+```
 
 ## Things to know and consider
 * Requires Maven 3.x to build jar file.
