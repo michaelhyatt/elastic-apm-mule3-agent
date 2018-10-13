@@ -5,10 +5,28 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mycompany</groupId>
 	<artifactId>apm-mule3-agent</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-	<packaging>mule</packaging>
+	<version>0.7.0</version>
+	<packaging>${packaging}</packaging>
 	<name>Mule apm-mule3-agent Application</name>
-
+	
+	<profiles>
+		<profile>
+			<id>mule</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<packaging>mule</packaging>
+			</properties>
+		</profile>
+		<profile>
+			<id>jar</id>
+			<properties>
+				<packaging>jar</packaging>
+			</properties>
+		</profile>
+	</profiles>
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
