@@ -25,7 +25,7 @@ Add the tracer to the main Mule flow. This import will ensure all the relevant m
 ```
 
 ### Mule property configuration
-Make sure to add the following configuration options to your `mule-app.properties` file configuring your Mule application:
+Make sure to add the following configuration options to your `mule-app.properties` file configuring your Mule application. More information about the available configuration properties for APM module can be found here - https://www.elastic.co/guide/en/apm/agent/java/current/config-core.html
 ```properties
 # Elastic Apm Java client properties
 elastic.apm.log_level=INFO
