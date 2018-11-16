@@ -17,12 +17,12 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
         <flow-ref name="apm-mule3-agentFlow1" doc:name="Flow Reference"/>
         <logger level="INFO" doc:name="Logger2"/>
         <scripting:component doc:name="Groovy">
-            <scripting:script engine="Groovy"><![CDATA[//int num = (Math.random() * 10).round()
+            <scripting:script engine="Groovy"><![CDATA[int num = (Math.random() * 10).round()
 
-//if (num == 5)
-//   throw new Exception("it is 5, my dudes!")
+if (num == 5)
+   throw new Exception("it is 5, my dudes!")
 
-print 1]]></scripting:script>
+//Thread.sleep(num)]]></scripting:script>
         </scripting:component>
         <set-property propertyName="http.response" value="201" doc:name="Property"/>
     </flow>
