@@ -20,12 +20,12 @@ import org.mule.api.transformer.DataType;
 import org.mule.api.transport.PropertyScope;
 import org.mule.tck.junit4.FunctionalTestCase;
 
-import co.elastic.apm.bci.ElasticApmAgent;
-import co.elastic.apm.impl.ElasticApmTracerBuilder;
-import co.elastic.apm.impl.transaction.Span;
-import co.elastic.apm.impl.transaction.Transaction;
+import co.elastic.apm.agent.bci.ElasticApmAgent;
+import co.elastic.apm.agent.impl.ElasticApmTracerBuilder;
+import co.elastic.apm.agent.impl.transaction.Span;
+import co.elastic.apm.agent.impl.transaction.Transaction;
+import co.elastic.apm.agent.report.Reporter;
 import co.elastic.apm.mule.utils.PropertyUtils;
-import co.elastic.apm.report.Reporter;
 import net.bytebuddy.agent.ByteBuddyAgent;
 
 @RunWith(MockitoJUnitRunner.class)

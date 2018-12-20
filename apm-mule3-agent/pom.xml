@@ -5,10 +5,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>co.elastic.apm</groupId>
 	<artifactId>apm-mule3-agent</artifactId>
-	<version>0.7.0</version>
+	<version>1.0.0</version>
 	<packaging>${packaging}</packaging>
 	<name>Mule apm-mule3-agent Application</name>
-	
+
 	<profiles>
 		<profile>
 			<id>mule</id>
@@ -26,7 +26,7 @@
 			</properties>
 		</profile>
 	</profiles>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -34,7 +34,7 @@
 		<mule.version>3.9.0</mule.version>
 		<mule.tools.version>1.2</mule.tools.version>
 
-		<elastic-apm.version>0.7.0</elastic-apm.version>
+		<elastic-apm.version>1.2.0</elastic-apm.version>
 		<version.byte-buddy>1.8.14</version.byte-buddy>
 
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -168,6 +168,11 @@
 			<groupId>net.bytebuddy</groupId>
 			<artifactId>byte-buddy-agent</artifactId>
 			<version>${version.byte-buddy}</version>
+		</dependency>
+		<dependency>
+			<groupId>co.elastic.apm</groupId>
+			<artifactId>apm-opentracing</artifactId>
+			<version>${elastic-apm.version}</version>
 		</dependency>
 		<!-- testing dependencies -->
 		<dependency>

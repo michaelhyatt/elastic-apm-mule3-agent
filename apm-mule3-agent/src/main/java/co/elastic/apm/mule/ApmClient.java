@@ -1,7 +1,7 @@
 package co.elastic.apm.mule;
 
-import co.elastic.apm.bci.ElasticApmAgent;
-import co.elastic.apm.impl.ElasticApmTracerBuilder;
+import co.elastic.apm.agent.bci.ElasticApmAgent;
+import co.elastic.apm.agent.impl.ElasticApmTracerBuilder;
 import net.bytebuddy.agent.ByteBuddyAgent;
 
 /**
