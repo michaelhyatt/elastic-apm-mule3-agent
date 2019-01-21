@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8281" doc:name="HTTP Listener Configuration"/>
+    <http:request-config name="HTTP_Request_Configuration" host="localhost" port="8282" doc:name="HTTP Request Configuration"/>
+    <http:request-config name="HTTP_Request_Configuration1" host="localhost" port="8283" doc:name="HTTP Request Configuration"/>
+    <http:request-config name="HTTP_Request_Configuration2" host="localhost" port="8284" doc:name="HTTP Request Configuration"/>
+    <http:request-config name="HTTP_Request_Configuration3" host="localhost" port="8285" doc:name="HTTP Request Configuration"/>
+    <flow name="component1Flow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/" allowedMethods="GET" parseRequest="false" doc:name="HTTP">
+            <http:response-builder statusCode="200" reasonPhrase="Ok"/>
+        </http:listener>
+        <logger message="Starting component1" level="INFO" doc:name="Logger"/>
+        <http:request config-ref="HTTP_Request_Configuration" path="/" method="GET" doc:name="HTTP"/>
+        <set-payload value="#[{1,1}]" doc:name="Set Payload"/>
+        <scatter-gather doc:name="Scatter-Gather">
+            <processor-chain>
+                <logger message="Starting component1 branch1" level="INFO" doc:name="Logger"/>
+                <http:request config-ref="HTTP_Request_Configuration1" path="/" method="GET" doc:name="HTTP"/>
+                <logger message="Finishing component1 branch1" level="INFO" doc:name="Logger"/>
+            </processor-chain>
+            <processor-chain>
+                <logger message="Starting component1 branch2" level="INFO" doc:name="Logger"/>
+                <http:request config-ref="HTTP_Request_Configuration2" path="/" method="GET" doc:name="HTTP"/>
+                <logger message="Finishing component1 branch2" level="INFO" doc:name="Logger"/>
+            </processor-chain>
+        </scatter-gather>
+        <http:request config-ref="HTTP_Request_Configuration3" path="/" method="GET" doc:name="HTTP"/>
+        <set-payload value="success" doc:name="Set Payload"/>
+        <logger message="Finishing component1" level="INFO" doc:name="Logger"/>
+    </flow>
+</mule>
