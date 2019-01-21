@@ -1,6 +1,7 @@
 package co.elastic.apm.mule.functional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
@@ -108,7 +109,10 @@ public class FunctionalTests extends FunctionalTestCase {
 		MuleEvent response = runFlow("dt1_senderFlow", message);
 
 		MuleMessage responseMessage = response.getMessage();
+
+		assertEquals(value.split("-")[0], responseMessage.getInboundProperty("result").toString().split("-")[0]);
 		assertEquals(value.split("-")[1], responseMessage.getInboundProperty("result").toString().split("-")[1]);
+		assertNotEquals(value.split("-")[2], responseMessage.getInboundProperty("result").toString().split("-")[2]);
 	}
 
 	private List<Span> spans = new ArrayList<Span>();
