@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+import org.mule.api.MuleEvent;
 import org.mule.api.MuleMessage;
 import org.mule.api.transformer.DataType;
 import org.mule.api.transport.PropertyScope;
@@ -80,9 +81,9 @@ public class FunctionalTests extends FunctionalTestCase {
 
 		Mockito.verify(reporter, Mockito.times(4)).report(Mockito.any(Span.class));
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
-		
+
 		assertEquals("test2Flow", tx.getName().toString());
-		
+
 		assertEquals("Logger", spans.get(0).getName().toString());
 		assertEquals("logger", spans.get(0).getType().toString());
 		assertEquals("Groovy", spans.get(1).getName().toString());
@@ -91,8 +92,23 @@ public class FunctionalTests extends FunctionalTestCase {
 		assertEquals("vm:outbound-endpoint", spans.get(2).getType().toString());
 		assertEquals("Property", spans.get(3).getName().toString());
 		assertEquals("set-property", spans.get(3).getType().toString());
-		
+
 		assertEquals("201", tx.getContext().getTags().get("out:http.response"));
+	}
+
+	@Test
+	public void testDistributedTracingHeaderPropagation() throws Exception {
+
+		// Injecting elastic-apm-traceparent header and validating propagation
+		MuleMessage message = getTestMuleMessage();
+
+		String value = "00-8bcf1a675fec3e77a6159b5595b74509-da91f142a15ba4fc-01";
+		message.setProperty("elastic-apm-traceparent", value, PropertyScope.INBOUND);
+
+		MuleEvent response = runFlow("dt1_senderFlow", message);
+
+		MuleMessage responseMessage = response.getMessage();
+		assertEquals(value.split("-")[1], responseMessage.getInboundProperty("result").toString().split("-")[1]);
 	}
 
 	private List<Span> spans = new ArrayList<Span>();
@@ -131,7 +147,7 @@ public class FunctionalTests extends FunctionalTestCase {
 
 	@Override
 	protected String getConfigResources() {
-		return "test_tracer.xml, test1.xml, test2.xml";
+		return "test_tracer.xml, test1.xml, test2.xml, test_dt1.xml";
 	}
 
 }

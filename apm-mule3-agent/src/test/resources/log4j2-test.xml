@@ -15,7 +15,7 @@
         <AsyncLogger name="org.apache" level="WARN"/>
 
         <!-- Reduce startup noise -->
-        <AsyncLogger name="org.springframework.beans.factory" level="WARN"/>
+        <AsyncLogger name="org.springframework" level="WARN"/>
 
         <!-- Mule classes -->
         <AsyncLogger name="org.mule" level="INFO"/>

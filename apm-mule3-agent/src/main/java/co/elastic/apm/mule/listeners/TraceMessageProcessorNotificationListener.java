@@ -21,10 +21,10 @@ public class TraceMessageProcessorNotificationListener
 
 		switch (notification.getAction()) {
 		case MessageProcessorNotification.MESSAGE_PROCESSOR_PRE_INVOKE:
-			spanUtils.startSpan(notification);
 			break;
 
 		case MessageProcessorNotification.MESSAGE_PROCESSOR_PRE_INVOKE_ORIGINAL_EVENT:
+			spanUtils.startSpan(notification);
 			break;
 
 		case MessageProcessorNotification.MESSAGE_PROCESSOR_POST_INVOKE:

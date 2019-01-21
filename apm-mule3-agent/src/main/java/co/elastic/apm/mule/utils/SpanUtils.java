@@ -1,6 +1,7 @@
 package co.elastic.apm.mule.utils;
 
-import org.mule.api.MuleEvent;
+import org.mule.api.MuleMessage;
+import org.mule.api.transport.PropertyScope;
 import org.mule.context.notification.MessageProcessorNotification;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,20 +19,37 @@ public class SpanUtils {
 	private TransactionStackMap txMap;
 
 	public void startSpan(MessageProcessorNotification notification) {
-		String messageId = getMessageId(notification);
+
+		MuleMessage message = getMuleMessage(notification);
+		String messageId = getMessageId(message);
+
 		Span parentSpan = txMap.peek(messageId);
 		Span span = parentSpan.createSpan();
 		span.setName(AnnotatedObjectUtils.getProcessorName(notification));
 		span.setType(AnnotatedObjectUtils.getProcessorType(notification));
+
 		txMap.put(messageId, span);
+
+		// Update MuleMessage with distributed tracing properties set into outboundProperty
+		span.injectTraceHeaders(
+				(headerName, headerValue) -> message.setProperty(headerName, headerValue, PropertyScope.OUTBOUND));
 
 	}
 
 	public void endSpan(MessageProcessorNotification notification) {
-		txMap.get(getMessageId(notification)).end();
+
+		MuleMessage message = getMuleMessage(notification);
+		Span span = txMap.get(getMessageId(message));
+
+		span.end();
 	}
 
-	private String getMessageId(MessageProcessorNotification notification) {
-		return ((MuleEvent) notification.getSource()).getMessage().getMessageRootId();
+	private String getMessageId(MuleMessage message) {
+		return message.getMessageRootId();
 	}
+
+	private MuleMessage getMuleMessage(MessageProcessorNotification notification) {
+		return notification.getSource().getMessage();
+	}
+
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+    <flow name="dt1_senderFlow">
+        <logger level="INFO" doc:name="Logger" message="log1a + #[message.inboundProperties['elastic-apm-traceparent']]"/>
+        <set-property propertyName="test" value="123" doc:name="Property"/>
+        <logger message="log1b + #[message.outboundProperties['elastic-apm-traceparent']]" level="INFO" doc:name="Logger"/>
+        <vm:outbound-endpoint exchange-pattern="request-response" path="q1" doc:name="VM"/>
+        <logger message="log3 + #[message]" level="INFO" doc:name="Logger"/>
+    </flow>
+    <flow name="dt1_receiverFlow">
+        <vm:inbound-endpoint exchange-pattern="request-response" path="q1" doc:name="VM"/>
+        <logger level="INFO" doc:name="Logger"/>
+        <logger message="log2a + #[message.inboundProperties['elastic-apm-traceparent']]" level="INFO" doc:name="Logger"/>
+        <logger message="log2b + #[message.inboundProperties['test']]" level="INFO" doc:name="Logger"/>
+        <set-payload value="testetetessss" mimeType="text/plain" doc:name="Set Payload"/>
+        <set-property propertyName="result" value="#[message.inboundProperties['elastic-apm-traceparent']]" doc:name="Property"/>
+    </flow>
+</mule>

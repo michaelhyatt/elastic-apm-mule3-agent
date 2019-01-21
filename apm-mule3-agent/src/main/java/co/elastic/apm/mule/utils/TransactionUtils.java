@@ -8,6 +8,7 @@ import org.mule.module.http.internal.ParameterMap;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import co.elastic.apm.api.ElasticApm;
+import co.elastic.apm.api.HeaderExtractor;
 import co.elastic.apm.api.Transaction;
 
 /**
@@ -38,8 +39,17 @@ public class TransactionUtils {
 
 		if (txMap.depth(messageId) > 0)
 			return;
-
-		Transaction transaction = ElasticApm.startTransaction();
+		
+		// Start transaction with propagation with remote parentId to support distributed tracing
+		Transaction transaction = ElasticApm.startTransactionWithRemoteParent(new HeaderExtractor() {
+			
+			@Override
+			public String getFirstHeader(String headerName) {
+				String header = muleMessage.getInboundProperty(headerName);
+				return header;
+			}
+		});
+		
 		String name = AnnotatedObjectUtils.getFlowName(notification);
 		transaction.setName(name);
 		transaction.setType(Transaction.TYPE_REQUEST);
