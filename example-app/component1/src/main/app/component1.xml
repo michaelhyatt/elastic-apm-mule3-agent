@@ -12,13 +12,13 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<http:listener-config name="HTTP_Listener_Configuration"
 		host="0.0.0.0" port="8281" doc:name="HTTP Listener Configuration" />
 	<http:request-config name="HTTP_Request_Configuration"
-		host="localhost" port="8282" doc:name="HTTP Request Configuration" />
+		host="${component2}" port="8282" doc:name="HTTP Request Configuration" />
 	<http:request-config name="HTTP_Request_Configuration1"
-		host="localhost" port="8283" doc:name="HTTP Request Configuration" />
+		host="${component2}" port="8283" doc:name="HTTP Request Configuration" />
 	<http:request-config name="HTTP_Request_Configuration2"
-		host="localhost" port="8284" doc:name="HTTP Request Configuration" />
+		host="${component2}" port="8284" doc:name="HTTP Request Configuration" />
 	<http:request-config name="HTTP_Request_Configuration3"
-		host="localhost" port="8285" doc:name="HTTP Request Configuration" />
+		host="${component2}" port="8285" doc:name="HTTP Request Configuration" />
 	<flow name="component1Flow">
 		<http:listener config-ref="HTTP_Listener_Configuration"
 			path="/" allowedMethods="GET" parseRequest="false" doc:name="HTTP">
@@ -47,6 +47,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 					doc:name="Logger" />
 			</processor-chain>
 		</scatter-gather>
+        <logger message="About to finish component1" level="INFO" doc:name="Logger"/>
 		<http:request config-ref="HTTP_Request_Configuration3"
 			path="/" method="GET" doc:name="HTTP" />
 		<set-payload value="success" doc:name="Set Payload" />

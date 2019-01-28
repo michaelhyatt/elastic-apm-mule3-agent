@@ -6,13 +6,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
-	<spring:beans>
-		<spring:import resource="classpath:co/elastic/apm/mule/tracer.xml" />
-	</spring:beans>
-	<http:listener-config name="HTTP_Listener_Configuration"
+	<http:listener-config name="HTTP_Listener_Configuration5"
 		host="0.0.0.0" port="8285" doc:name="HTTP Listener Configuration" />
 	<flow name="component5Flow">
-		<http:listener config-ref="HTTP_Listener_Configuration"
+		<http:listener config-ref="HTTP_Listener_Configuration5"
 			path="/" doc:name="HTTP" />
 		<logger message="Invoked component5" level="INFO" doc:name="Logger" />
 	</flow>

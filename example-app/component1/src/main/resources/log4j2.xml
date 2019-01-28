@@ -43,7 +43,7 @@
         <AsyncLogger name="org.jetel" level="WARN"/>
         <AsyncLogger name="Tracking" level="WARN"/>
         
-        <AsyncRoot level="INFO">
+        <AsyncRoot level="DEBUG">
             <AppenderRef ref="file" />
         </AsyncRoot>
     </Loggers>

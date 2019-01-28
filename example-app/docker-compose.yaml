@@ -1,0 +1,80 @@
+version: '3'
+services:
+
+  base:
+    image: apm-mule3-agent:1.3.0
+    build:
+      context: ..
+    command: ["echo", "Base image doesn't need to run"]
+
+  # Elastic stack
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${TAG}
+    container_name: elasticsearch-apm-mule
+    networks:
+      mule:
+    ports:
+      - "9200:9200"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${TAG}
+    container_name: kibana-apm-mule
+    networks:
+      mule:
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
+  apm-server:
+    image: docker.elastic.co/apm/apm-server:${TAG}
+    container_name: apm-server-apm-mule
+    networks:
+      mule:
+    ports:
+      - "8200:8200"
+    depends_on:
+      - elasticsearch
+      - kibana
+
+  component2:
+    build:
+      context: component2
+    depends_on:
+      - base
+      - apm-server
+    networks:
+      mule:
+    ports:
+      - "8282:8282"
+      - "8283:8283"
+      - "8284:8284"
+      - "8285:8285"      
+    command: ["sh", "wait-for-apm-server.sh", "http://elasticsearch:9200","http://apm-server:8200", "/opt/mule/bin/mule-start.sh"]
+    environment:
+      - MULE_ENV_OVERRIDE_DEFAULT=0
+      - MULE_ENV=dev
+      - ELASTIC_APM_SERVER_URLS=http://apm-server:8200
+      - ELASTIC_APM_SERVICE_NAME=component2
+      - ELASTIC_APM_SERVICE_VERSION=v1
+
+  component1:
+    build:
+      context: component1
+    depends_on:
+      - base
+      - apm-server
+    networks:
+      mule:
+    ports:
+      - "8281:8281"
+    command: ["sh", "wait-for-apm-server.sh", "http://elasticsearch:9200","http://apm-server:8200", "/opt/mule/bin/mule-start.sh"]
+    environment:
+      - MULE_ENV_OVERRIDE_DEFAULT=0
+      - MULE_ENV=dev
+      - ELASTIC_APM_SERVER_URLS=http://apm-server:8200
+      - ELASTIC_APM_SERVICE_NAME=component1
+      - ELASTIC_APM_SERVICE_VERSION=v1
+
+networks:
+  mule:
