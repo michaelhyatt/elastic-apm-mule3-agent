@@ -59,7 +59,7 @@ public class TransactionUtils {
 
 		transaction.addTag("messageId", messageId);
 
-		txMap.put(messageId, notification, transaction);
+		txMap.storeTransactionOrSpan(messageId, notification, transaction);
 
 	}
 
@@ -75,7 +75,7 @@ public class TransactionUtils {
 		
 		// Only terminate the last top level flow transaction
 		if (txMap.depth(messageId) == 1) {
-			Transaction transaction = (Transaction) txMap.get(messageId, notification);
+			Transaction transaction = (Transaction) txMap.getTransactionOrSpan(messageId, notification);
 
 			if (PropertyUtils.isOutputPropertyCaptureEnabled())
 				PropertyUtils.getOutputProperties(muleMessage)

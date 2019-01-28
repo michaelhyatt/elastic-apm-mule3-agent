@@ -25,12 +25,12 @@ public class SpanUtils {
 		MuleMessage message = getMuleMessage(notification);
 		String messageId = getMessageId(message);
 
-		Span parentSpan = txMap.peek(messageId);
+		Span parentSpan = txMap.getTopLevelTransaction(messageId);
 		Span span = parentSpan.createSpan();
 		span.setName(AnnotatedObjectUtils.getProcessorName(notification));
 		span.setType(AnnotatedObjectUtils.getProcessorType(notification));
 
-		txMap.put(messageId, notification, span);
+		txMap.storeTransactionOrSpan(messageId, notification, span);
 
 		// Update MuleMessage with distributed tracing properties set into outboundProperty
 		span.injectTraceHeaders(
@@ -45,7 +45,7 @@ public class SpanUtils {
 		MuleMessage message = getMuleMessage(notification);
 		String messageId = getMessageId(message);
 		
-		Span span = txMap.get(messageId, notification);
+		Span span = txMap.getTransactionOrSpan(messageId, notification);
 
 		span.end();
 	}

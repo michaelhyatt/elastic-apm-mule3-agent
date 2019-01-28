@@ -33,7 +33,7 @@ public class SpanStore {
 	 * @param span
 	 *            Span or Transaction object to store
 	 */
-	public void put(String key, ServerNotification notification, Span span) {
+	public void storeTransactionOrSpan(String key, ServerNotification notification, Span span) {
 
 		Optional<MessageProcessor> key2 = getKey2(notification);
 
@@ -54,11 +54,17 @@ public class SpanStore {
 	 * @param notification
 	 * @return
 	 */
-	public Span get(String key, ServerNotification notification) {
+	public Span getTransactionOrSpan(String key, ServerNotification notification) {
 
 		Optional<MessageProcessor> key2 = getKey2(notification);
 
-		return map.get(key).remove(key2);
+		Map<Optional<MessageProcessor>, Span> stack = map.get(key);
+		Span span = stack.remove(key2);
+		
+		if (stack.size() == 0)
+			map.remove(key);
+		
+		return span;
 	}
 
 	/**
@@ -84,7 +90,7 @@ public class SpanStore {
 	 * @param notification
 	 * @return
 	 */
-	public Span peek(String key) {
+	public Span getTopLevelTransaction(String key) {
 
 		return map.get(key).get(Optional.empty());
 	}
