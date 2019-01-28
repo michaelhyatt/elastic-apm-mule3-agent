@@ -16,9 +16,11 @@ import co.elastic.apm.api.Span;
 public class SpanUtils {
 
 	@Autowired
-	private TransactionStackMap txMap;
+	private SpanStore txMap;
 
 	public void startSpan(MessageProcessorNotification notification) {
+		
+		//System.out.println("Starting " + notification.getProcessor());
 
 		MuleMessage message = getMuleMessage(notification);
 		String messageId = getMessageId(message);
@@ -28,7 +30,7 @@ public class SpanUtils {
 		span.setName(AnnotatedObjectUtils.getProcessorName(notification));
 		span.setType(AnnotatedObjectUtils.getProcessorType(notification));
 
-		txMap.put(messageId, span);
+		txMap.put(messageId, notification, span);
 
 		// Update MuleMessage with distributed tracing properties set into outboundProperty
 		span.injectTraceHeaders(
@@ -38,8 +40,12 @@ public class SpanUtils {
 
 	public void endSpan(MessageProcessorNotification notification) {
 
+		//System.out.println("Finishing " + notification.getProcessor());
+		
 		MuleMessage message = getMuleMessage(notification);
-		Span span = txMap.get(getMessageId(message));
+		String messageId = getMessageId(message);
+		
+		Span span = txMap.get(messageId, notification);
 
 		span.end();
 	}

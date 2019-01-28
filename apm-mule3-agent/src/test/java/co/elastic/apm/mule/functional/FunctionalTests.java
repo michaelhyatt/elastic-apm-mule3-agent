@@ -46,6 +46,25 @@ public class FunctionalTests extends FunctionalTestCase {
 	}
 
 	@Test
+	public void parallelFlowSendsOneTransaction() throws Exception {
+
+		runFlow("parallelFlow");
+
+		Mockito.verify(reporter, Mockito.times(7)).report(Mockito.any(Span.class));
+		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
+
+		assertEquals("parallelFlow", tx.getName().toString());
+		assertEquals("Logger1", spans.get(0).getName().toString());
+		assertEquals("Logger", spans.get(1).getName().toString());
+		assertEquals("Logger", spans.get(2).getName().toString());
+		assertEquals("Logger", spans.get(3).getName().toString());
+		assertEquals("Logger", spans.get(4).getName().toString());		
+		assertEquals("Scatter-Gather", spans.get(5).getName().toString());
+		assertEquals("Logger4", spans.get(6).getName().toString());
+		
+	}
+	
+	@Test
 	public void simpleFlowSendsOneTransactionWithProperty() throws Exception {
 
 		MuleMessage msg = this.getTestMuleMessage();
@@ -151,7 +170,7 @@ public class FunctionalTests extends FunctionalTestCase {
 
 	@Override
 	protected String getConfigResources() {
-		return "test_tracer.xml, test1.xml, test2.xml, test_dt1.xml";
+		return "test_tracer.xml, test1.xml, test2.xml, test_dt1.xml, parallel_flow.xml";
 	}
 
 }

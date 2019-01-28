@@ -23,7 +23,7 @@ import co.elastic.apm.api.Transaction;
 public class TransactionUtils {
 
 	@Autowired
-	private TransactionStackMap txMap;
+	private SpanStore txMap;
 
 	/**
 	 * Starts {@link co.elastic.apm.api.Transaction}, if none exists for a given
@@ -59,7 +59,7 @@ public class TransactionUtils {
 
 		transaction.addTag("messageId", messageId);
 
-		txMap.put(messageId, transaction);
+		txMap.put(messageId, notification, transaction);
 
 	}
 
@@ -72,10 +72,10 @@ public class TransactionUtils {
 	public void endTransactionIfNeeded(PipelineMessageNotification notification) {
 		MuleMessage muleMessage = getMuleMessage(notification);
 		String messageId = muleMessage.getMessageRootId();
-
+		
 		// Only terminate the last top level flow transaction
 		if (txMap.depth(messageId) == 1) {
-			Transaction transaction = (Transaction) txMap.get(messageId);
+			Transaction transaction = (Transaction) txMap.get(messageId, notification);
 
 			if (PropertyUtils.isOutputPropertyCaptureEnabled())
 				PropertyUtils.getOutputProperties(muleMessage)

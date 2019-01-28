@@ -39,7 +39,7 @@
 			level="WARN" />
 
 		<!-- Mule classes -->
-		<AsyncLogger name="org.mule" level="INFO" />
+		<AsyncLogger name="org.mule" level="WARN" />
 		<AsyncLogger name="com.mulesoft" level="WARN" />
 
 		<!-- Reduce DM verbosity -->
@@ -47,7 +47,7 @@
 		<AsyncLogger name="Tracking" level="WARN" />
 		<AsyncLogger name="co.elastic" level="DEBUG" />
 
-		<AsyncRoot level="INFO">
+		<AsyncRoot level="WARN">
 			<AppenderRef ref="file" />
 		</AsyncRoot>
 	</Loggers>
