@@ -13,6 +13,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 		<spring:bean id="transactionUtils"
 			class="co.elastic.apm.mule.utils.TransactionUtils" />
 		<spring:bean id="spanUtils" class="co.elastic.apm.mule.utils.SpanUtils" />
+		<spring:bean id="exceptionUtils" class="co.elastic.apm.mule.utils.ExceptionUtils" />
 
 		<!-- Notification listeners -->
 		<spring:bean id="traceMessageProcessorNotificationListener"
