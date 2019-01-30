@@ -49,7 +49,7 @@ services:
       - "8282:8282"
       - "8283:8283"
       - "8284:8284"
-      - "8285:8285"      
+      - "8285:8285"
     command: ["sh", "wait-for-apm-server.sh", "http://elasticsearch:9200","http://apm-server:8200", "/opt/mule/bin/mule-start.sh"]
     environment:
       - MULE_ENV_OVERRIDE_DEFAULT=0
@@ -57,6 +57,8 @@ services:
       - ELASTIC_APM_SERVER_URLS=http://apm-server:8200
       - ELASTIC_APM_SERVICE_NAME=component2
       - ELASTIC_APM_SERVICE_VERSION=v1
+      - ELASTIC_APM_ENVIRONMENT=dev
+      # - ELASTIC_APM_LOG_LEVEL=DEBUG
 
   component1:
     build:
@@ -75,6 +77,8 @@ services:
       - ELASTIC_APM_SERVER_URLS=http://apm-server:8200
       - ELASTIC_APM_SERVICE_NAME=component1
       - ELASTIC_APM_SERVICE_VERSION=v1
+      - ELASTIC_APM_ENVIRONMENT=dev
+      # - ELASTIC_APM_LOG_LEVEL=DEBUG
 
 networks:
   mule:
