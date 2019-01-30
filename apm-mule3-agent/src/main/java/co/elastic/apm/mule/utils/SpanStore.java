@@ -60,8 +60,8 @@ public class SpanStore {
 		Map<Optional<MessageProcessor>, Span> stack = map.get(key);
 		Span span = stack.remove(key2);
 		
-//		if (stack.size() == 0)
-//			map.remove(key);
+		if (stack.size() == 0)
+			map.remove(key);
 		
 		return span;
 	}
