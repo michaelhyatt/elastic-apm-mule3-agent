@@ -50,6 +50,9 @@ elastic.apm.mule.capture_output_properties=true
 elastic.apm.mule.capture_output_properties_regex=(.*)
 ```
 
+## Support for distributed tracing
+The agent supports distributed tracing by propagating the trace context in property `elastic-apm-tracecontext`. Protocols, such as HTTP, that can convert outbound properties into relevant protocol meta-data, i.e. HTTP headers, don't need to take any special precautions. Other protocols that ignore outbound properties, will need to explicitly map the above property into appropriate protocol related header or property.
+
 ## Things to know and consider
 * Requires Maven 3.x to build jar file.
 * Works with both, Mule 3.x CE and EE. Built with Mule CE 3.9.0.
