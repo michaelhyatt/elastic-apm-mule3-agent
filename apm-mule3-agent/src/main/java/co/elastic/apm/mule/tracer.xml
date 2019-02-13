@@ -7,8 +7,8 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 	<spring:beans>
 		<!-- Utility beans -->
 		<spring:bean id="apmClient" class="co.elastic.apm.mule.ApmClient"
-			init-method="initElasticApmInstrumentation" />
-		<spring:bean id="transactionStackMap" class="co.elastic.apm.mule.utils.SpanStore" />
+			init-method="initElasticApmInstrumentation" scope="singleton"/>
+		<spring:bean id="transactionStackMap" class="co.elastic.apm.mule.utils.SpanStore" scope="singleton"/>
 		<spring:bean id="transactionUtils"
 			class="co.elastic.apm.mule.utils.TransactionUtils" />
 		<spring:bean id="spanUtils" class="co.elastic.apm.mule.utils.SpanUtils" />
