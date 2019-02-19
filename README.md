@@ -9,6 +9,9 @@ The agent is converting the top level flow into APM trace and transactions, all 
 APM transaction view:
 ![APM Transaction and Spans](./apm.png)
 
+Nice Canvas visualisation (see `kibana-objs` folder):
+![Canvas1](./canvas1.png)
+
 ## Setup
 ### Getting and building the code
 Download the code by `git clone https://github.com/michaelhyatt/elastic-apm-mule3-agent`. Install the jar in your Maven repo by `mvn install -Pjar`. Add the following dependency to your Mule project POM file:
