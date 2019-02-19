@@ -27,14 +27,14 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		</http:listener>
 		<logger message="Starting component1" level="INFO" doc:name="Logger" />
 		<http:request config-ref="HTTP_Request_Configuration"
-			path="/" method="GET" doc:name="HTTP" />
+			path="/" method="GET" doc:name="HTTP1" />
 		<set-payload value="#[{1,1}]" doc:name="Set Payload" />
 		<scatter-gather doc:name="Scatter-Gather">
 			<processor-chain>
 				<logger message="Starting component1 branch1" level="INFO"
 					doc:name="Logger" />
 				<http:request config-ref="HTTP_Request_Configuration1"
-					path="/" method="GET" doc:name="HTTP" />
+					path="/" method="GET" doc:name="HTTP2a" />
 				<logger message="Finishing component1 branch1" level="INFO"
 					doc:name="Logger" />
 			</processor-chain>
@@ -42,14 +42,14 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 				<logger message="Starting component1 branch2" level="INFO"
 					doc:name="Logger" />
 				<http:request config-ref="HTTP_Request_Configuration2"
-					path="/" method="GET" doc:name="HTTP" />
+					path="/" method="GET" doc:name="HTTP2b" />
 				<logger message="Finishing component1 branch2" level="INFO"
 					doc:name="Logger" />
 			</processor-chain>
 		</scatter-gather>
         <logger message="About to finish component1" level="INFO" doc:name="Logger"/>
 		<http:request config-ref="HTTP_Request_Configuration3"
-			path="/" method="GET" doc:name="HTTP" />
+			path="/" method="GET" doc:name="HTTP3" />
 		<set-payload value="success" doc:name="Set Payload" />
 		<logger message="Finishing component1" level="INFO" doc:name="Logger" />
 	</flow>
