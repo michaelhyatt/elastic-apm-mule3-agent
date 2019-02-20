@@ -9,7 +9,7 @@ The agent is converting the top level flow into APM trace and transactions, all 
 APM transaction view:
 ![APM Transaction and Spans](./apm.png)
 
-Nice Canvas visualisation (see `kibana-objs` folder):
+Example Canvas visualisation (built for `example-app`, see `kibana-objs` folder):
 ![Canvas1](./canvas1.png)
 
 ## Setup
