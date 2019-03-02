@@ -26,7 +26,7 @@ public class SpanUtils {
 		String messageId = getMessageId(message);
 		
 		Span parentSpan = txMap.getTopLevelTransaction(messageId);
-		Span span = parentSpan.startSpan("ext", AnnotatedObjectUtils.getProcessorType(notification), "mule");
+		Span span = parentSpan.startSpan(AnnotatedObjectUtils.getProcessorType(notification), "ext", "mule");
 		span.setName(AnnotatedObjectUtils.getProcessorName(notification));
 
 		txMap.storeTransactionOrSpan(messageId, notification, span);
