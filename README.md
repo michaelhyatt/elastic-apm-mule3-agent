@@ -44,7 +44,7 @@ Make sure to add the following configuration options to your `mule-app.propertie
 ```properties
 # Elastic Apm Java client properties
 elastic.apm.log_level=INFO
-elastic.apm.instrument=true
+elastic.apm.instrument=false #leave it as false to disable autoinstrumentation
 elastic.apm.active=true
 elastic.apm.server_urls=http://localhost:8200
 elastic.apm.application_packages=
@@ -59,6 +59,22 @@ elastic.apm.mule.capture_input_properties_regex=http_(.*)
 
 elastic.apm.mule.capture_output_properties=true
 elastic.apm.mule.capture_output_properties_regex=(.*)
+```
+Alternatively, it is possible to configure the APM agent using environment variables passed using the command line
+```properties
+-Delastic.apm.log_level=INFO
+-Delastic.apm.instrument=false
+-Delastic.apm.active=true
+-Delastic.apm.server_urls=http://localhost:8200
+-Delastic.apm.application_packages=
+-Delastic.apm.service_name=path-component
+-Delastic.apm.service_version=v1.0.0
+-Delastic.apm.stack_trace_limit=30
+-Delastic.apm.span_frames_min_duration=0ms
+-Delastic.apm.mule.capture_input_properties=true
+-Delastic.apm.mule.capture_input_properties_regex=http_(.*)
+-Delastic.apm.mule.capture_output_properties=true
+-Delastic.apm.mule.capture_output_properties_regex=(.*)
 ```
 
 ## Support for distributed tracing
