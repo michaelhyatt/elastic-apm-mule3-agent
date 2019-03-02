@@ -24,13 +24,10 @@ public class SpanUtils {
 
 		MuleMessage message = getMuleMessage(notification);
 		String messageId = getMessageId(message);
-
-		// TODO look into deprecation warning
 		
 		Span parentSpan = txMap.getTopLevelTransaction(messageId);
-		Span span = parentSpan.createSpan();
+		Span span = parentSpan.startSpan("ext", AnnotatedObjectUtils.getProcessorType(notification), "mule");
 		span.setName(AnnotatedObjectUtils.getProcessorName(notification));
-		span.setType(AnnotatedObjectUtils.getProcessorType(notification));
 
 		txMap.storeTransactionOrSpan(messageId, notification, span);
 
