@@ -1,4 +1,4 @@
-# elastic-apm-mule3-agent
+# Elastic APM Mule3 Agent
 ## Intro
 This addon allows application performance monitoring of Mule 3.x components using Elastic APM. It provides a non-intrusive way to measure and benchmark individual flows and steps in Mule, adding the application performance monitoring of Mule components to reside in Elasticsearch alongside logs, metrics and other data. Mule APM agent supports distributed tracing allowing propagation of trace context using transport protocol meta-data, such as HTTP headers, and can present a unified view of the same trace spanning multiple components, built in Mule and other supported technologies. For more information about Elastic APM see [this link](https://www.elastic.co/solutions/apm). Also, feel free to check out the [sample app](example-app).
 
@@ -23,11 +23,19 @@ Download the code by `git clone https://github.com/michaelhyatt/elastic-apm-mule
 </dependency>
 ```
 
-### Mule flow
-Add the tracer to the main Mule flow. This import will ensure all the relevant modules for tracing will get loaded and connection will be made to your Elastic APM server:
+### Enabling debugging within Mule flow
+This is a good way to enable debugging in standalone Mule workers. Add the tracer to the main Mule flow. This import will ensure all the relevant modules for tracing will get loaded and connection will be made to your Elastic APM server:
 ```xml
 <spring:beans>
     <spring:import resource="classpath:co/elastic/apm/mule/tracer.xml"/>
+</spring:beans>
+```
+
+### Enabling debugging in Mule applications deployed into the same domain
+Add the following to `mule-domain-config.xml` file within your domain. It will inject the APM client into all the projects deployed for this domain.
+```xml
+<spring:beans>
+    <spring:import resource="classpath:co/elastic/apm/mule/domain-tracer.xml" />
 </spring:beans>
 ```
 
