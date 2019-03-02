@@ -48,7 +48,7 @@ public class TransactionUtils {
 		transaction.setType(Transaction.TYPE_REQUEST);
 
 		if (PropertyUtils.isInputPropertyCaptureEnabled())
-			PropertyUtils.getInputProperties(muleMessage).forEach((pair) -> updateProperties(pair, transaction, "in"));
+			PropertyUtils.getInputProperties(muleMessage).forEach(pair -> updateProperties(pair, transaction, "in"));
 
 		transaction.addTag("messageId", messageId);
 
