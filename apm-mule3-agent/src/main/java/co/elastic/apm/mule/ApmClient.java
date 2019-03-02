@@ -1,8 +1,6 @@
 package co.elastic.apm.mule;
 
-import co.elastic.apm.agent.bci.ElasticApmAgent;
-import co.elastic.apm.agent.impl.ElasticApmTracerBuilder;
-import net.bytebuddy.agent.ByteBuddyAgent;
+import co.elastic.apm.attach.ElasticApmAttacher;
 
 /**
  * @author michaelhyatt
@@ -13,6 +11,8 @@ import net.bytebuddy.agent.ByteBuddyAgent;
 public class ApmClient {
 
 	public void initElasticApmInstrumentation() {
-		ElasticApmAgent.initInstrumentation(new ElasticApmTracerBuilder().build(), ByteBuddyAgent.install());
+//		ElasticApmAgent.initInstrumentation(new ElasticApmTracerBuilder().build(), ByteBuddyAgent.install());
+		
+		ElasticApmAttacher.attach();
 	}
 }

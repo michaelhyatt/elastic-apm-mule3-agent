@@ -143,6 +143,8 @@ public class FunctionalTests extends FunctionalTestCase {
 	@Before
 	public void setup() {
 
+		System.setProperty("elastic.apm.instrument", "false");
+		
 		Mockito.doAnswer(new Answer<Span>() {
 			@Override
 			public Span answer(InvocationOnMock invocation) throws Throwable {
