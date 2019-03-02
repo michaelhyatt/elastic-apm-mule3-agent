@@ -1,7 +1,5 @@
 package co.elastic.apm.mule.listeners;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.mule.api.MuleContext;
 import org.mule.api.context.notification.ExceptionNotificationListener;
 import org.mule.api.context.notification.MessageProcessorNotificationListener;
@@ -20,8 +18,6 @@ import co.elastic.apm.mule.utils.SpanUtils;
 import co.elastic.apm.mule.utils.TransactionUtils;
 
 public class DomainApplicationListener implements ApplicationListener<ContextRefreshedEvent> {
-
-	private static final Logger logger = LogManager.getLogger(DomainApplicationListener.class);
 
 	@Autowired
 	private TransactionUtils transactionUtils;
