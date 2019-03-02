@@ -19,7 +19,7 @@ Download the code by `git clone https://github.com/michaelhyatt/elastic-apm-mule
 <dependency>
     <groupId>co.elastic.apm</groupId>
     <artifactId>apm-mule3-agent</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.3</version>
 </dependency>
 ```
 
@@ -69,6 +69,6 @@ The agent supports distributed tracing by propagating the trace context in prope
 * Works with both, Mule 3.x CE and EE. Built with Mule CE 3.9.0.
 * Only supports Mule 3.x at this stage.
 * Only captures input and output properties, no flowVars at this stage.
-* Compatible with Elastic APM 6.5 and 6.6 and uses APM Java client v1.3.0.
+* Compatible with Elastic APM 6.5 and 6.6 and uses APM Java client v1.4.0.
 * Elastic APM - https://www.elastic.co/solutions/apm
 * For the rest of configuration parameters, see Elastic APM Java client documentation - https://github.com/elastic/apm-agent-java
