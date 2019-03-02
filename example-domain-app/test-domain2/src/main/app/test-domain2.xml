@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<http:request config-ref="HTTP_Request_Configuration"
 			path="/path1" method="GET" doc:name="HTTP" />
 	</flow>
-	<spring:beans>
+<!-- 	<spring:beans>
 		<spring:import resource="classpath:co/elastic/apm/mule/tracer.xml" />
-	</spring:beans>
+	</spring:beans> -->
 </mule>

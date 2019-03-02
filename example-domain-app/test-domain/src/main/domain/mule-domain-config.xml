@@ -14,4 +14,8 @@
 	<!-- configure here resource to be shared within the domain -->
 	<http:listener-config name="HTTP_Listener_Configuration2"
 		host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration" />
+
+	<spring:beans>
+		<spring:import resource="classpath:co/elastic/apm/mule/domain-tracer.xml" />
+	</spring:beans>
 </domain:mule-domain>

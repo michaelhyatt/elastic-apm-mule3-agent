@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="CE-3.9.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<spring:beans>
+		<spring:bean id="domainNotificationListener"
+			class="co.elastic.apm.mule.listeners.DomainApplicationListener"
+			scope="singleton" />
+
+		<spring:bean id="apmClient" class="co.elastic.apm.mule.ApmClient"
+			init-method="initElasticApmInstrumentation" scope="singleton" />
+		<spring:bean id="transactionStackMap" class="co.elastic.apm.mule.utils.SpanStore"
+			scope="singleton" />
+		<spring:bean id="transactionUtils"
+			class="co.elastic.apm.mule.utils.TransactionUtils" />
+		<spring:bean id="spanUtils" class="co.elastic.apm.mule.utils.SpanUtils" />
+		<spring:bean id="exceptionUtils" class="co.elastic.apm.mule.utils.ExceptionUtils" />
+	</spring:beans>
+</mule>
