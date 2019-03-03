@@ -77,6 +77,17 @@ Alternatively, it is possible to configure the APM agent using command line prop
 -Delastic.apm.mule.capture_output_properties_regex=(.*)
 ```
 Also, environment variables are supported, as per [Elastic APM Java agent configuration guide](https://www.elastic.co/guide/en/apm/agent/java/current/config-core.html).
+
+### Capturing flowVar values as Span tags
+To capture value of flowVars, it is possible to configure a regular expression matching the flowVar name and flow step name that will be used to capture the value of the flowVar as a Span tag:
+```properties
+# Enable flowVar capture into Span tags
+elastic.apm.mule.capture_flowvars=true
+
+# Capture all flowVars with names matching 'var*' at a flow step named "HTTP"
+elastic.apm.mule.capture_at_HTTP=var.*
+```
+
 ## Support for distributed tracing
 The agent supports distributed tracing by propagating the trace context in property `elastic-apm-traceparent`. Protocols, such as HTTP, that can convert outbound properties into relevant protocol meta-data, i.e. HTTP headers, don't need to take any special precautions. Other protocols that ignore outbound properties, will need to explicitly map the above property into appropriate protocol related header or property.
 
