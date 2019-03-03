@@ -19,7 +19,7 @@ Download the code by `git clone https://github.com/michaelhyatt/elastic-apm-mule
 <dependency>
     <groupId>co.elastic.apm</groupId>
     <artifactId>apm-mule3-agent</artifactId>
-    <version>1.4.3</version>
+    <version>1.4.4</version>
 </dependency>
 ```
 
