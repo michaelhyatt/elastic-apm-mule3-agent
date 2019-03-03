@@ -1,5 +1,6 @@
 package co.elastic.apm.mule.utils;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.mule.api.MuleMessage;
 import org.mule.api.transport.PropertyScope;
 import org.mule.context.notification.MessageProcessorNotification;
@@ -19,31 +20,39 @@ public class SpanUtils {
 	private SpanStore txMap;
 
 	public void startSpan(MessageProcessorNotification notification) {
-		
-		//System.out.println("Starting " + notification.getProcessor());
+
+		// System.out.println("Starting " + notification.getProcessor());
 
 		MuleMessage message = getMuleMessage(notification);
 		String messageId = getMessageId(message);
-		
+
 		Span parentSpan = txMap.getTopLevelTransaction(messageId);
 		Span span = parentSpan.startSpan(AnnotatedObjectUtils.getProcessorType(notification), "ext", "mule");
-		span.setName(AnnotatedObjectUtils.getProcessorName(notification));
+		String processorName = AnnotatedObjectUtils.getProcessorName(notification);
+		span.setName(processorName);
 
 		txMap.storeTransactionOrSpan(messageId, notification, span);
 
-		// Update MuleMessage with distributed tracing properties set into outboundProperty
+		// Update MuleMessage with distributed tracing properties set into
+		// outboundProperty
 		span.injectTraceHeaders(
 				(headerName, headerValue) -> message.setProperty(headerName, headerValue, PropertyScope.OUTBOUND));
 
+		if (FlowvarUtils.isCaptureFlowvarsEnabled())
+			FlowvarUtils.getFlowvars(notification).filter(pair -> FlowvarUtils.isFlowvarConfigured(pair, processorName))
+					.forEach(pair -> updateSpanTags(span, pair));
+
+	}
+
+	private void updateSpanTags(Span span, ImmutablePair<String, Object> pair) {
+		span.addTag("flowVar:" + pair.getLeft(), pair.getRight().toString());
 	}
 
 	public void endSpan(MessageProcessorNotification notification) {
 
-		//System.out.println("Finishing " + notification.getProcessor());
-		
 		MuleMessage message = getMuleMessage(notification);
 		String messageId = getMessageId(message);
-		
+
 		Span span = txMap.getTransactionOrSpan(messageId, notification);
 
 		span.end();

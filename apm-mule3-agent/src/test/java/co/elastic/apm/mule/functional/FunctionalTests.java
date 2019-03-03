@@ -27,6 +27,7 @@ import co.elastic.apm.agent.impl.ElasticApmTracerBuilder;
 import co.elastic.apm.agent.impl.transaction.Span;
 import co.elastic.apm.agent.impl.transaction.Transaction;
 import co.elastic.apm.agent.report.Reporter;
+import co.elastic.apm.mule.utils.FlowvarUtils;
 import co.elastic.apm.mule.utils.PropertyUtils;
 import net.bytebuddy.agent.ByteBuddyAgent;
 
@@ -62,6 +63,35 @@ public class FunctionalTests extends FunctionalTestCase {
 		assertEquals("Scatter-Gather", spans.get(5).getName().toString());
 		assertEquals("Logger4", spans.get(6).getName().toString());
 		
+	}
+	
+	@Test
+	public void simpleFlowTestsOneFlowvar() throws Exception {
+		
+		MuleMessage msg = this.getTestMuleMessage();
+
+		System.setProperty(FlowvarUtils.ELASTIC_APM_MULE_CAPTURE_FLOWVARS, "true");
+		System.setProperty(FlowvarUtils.ELASTIC_APM_MULE_CAPTURE_FLOWVAR_PREFIX + "Logger", "var.*");
+		
+		runFlow("testflowvar1Flow", msg);
+
+		Mockito.verify(reporter, Mockito.times(4)).report(Mockito.any(Span.class));
+		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
+		
+		assertEquals("testflowvar1Flow", tx.getName().toString());
+		
+		assertEquals("Variable", spans.get(0).getName().toString());
+		assertEquals("Variable", spans.get(1).getName().toString());
+		assertEquals("Variable", spans.get(2).getName().toString());
+		assertEquals("Logger", spans.get(3).getName().toString());
+		
+		assertEquals("123", spans.get(3).getContext().getTags().get("flowVar:var1"));
+		assertEquals("456", spans.get(3).getContext().getTags().get("flowVar:var2"));
+		assertNull(spans.get(3).getContext().getTags().get("flowVar:abc"));
+		assertNull(spans.get(0).getContext().getTags().get("flowVar:var1"));
+		assertNull(spans.get(1).getContext().getTags().get("flowVar:var2"));
+		assertNull(spans.get(2).getContext().getTags().get("flowVar:var1"));
+
 	}
 	
 	@Test
@@ -172,7 +202,7 @@ public class FunctionalTests extends FunctionalTestCase {
 
 	@Override
 	protected String getConfigResources() {
-		return "test_tracer.xml, test1.xml, test2.xml, test_dt1.xml, parallel_flow.xml";
+		return "test_tracer.xml, test1.xml, test2.xml, test_dt1.xml, parallel_flow.xml, testflowvar1.xml";
 	}
 
 }
