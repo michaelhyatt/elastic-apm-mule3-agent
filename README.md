@@ -19,7 +19,7 @@ Download the code by `git clone https://github.com/michaelhyatt/elastic-apm-mule
 <dependency>
     <groupId>co.elastic.apm</groupId>
     <artifactId>apm-mule3-agent</artifactId>
-    <version>1.4.4</version>
+    <version>1.4.5</version>
 </dependency>
 ```
 
@@ -39,7 +39,7 @@ Add the following to `mule-domain-config.xml` file within your domain. It will i
 </spring:beans>
 ```
 
-### Mule property configuration
+### Mule property configuration - DON'T use. Use ENV variables below instead.
 Make sure to add the following configuration options to your `mule-app.properties` file configuring your Mule application. More information about the available configuration properties for APM module can be found here - https://www.elastic.co/guide/en/apm/agent/java/current/config-core.html
 ```properties
 # Elastic Apm Java client properties
@@ -60,6 +60,8 @@ elastic.apm.mule.capture_input_properties_regex=http_(.*)
 elastic.apm.mule.capture_output_properties=true
 elastic.apm.mule.capture_output_properties_regex=(.*)
 ```
+
+### Configuration using JVM command line and environment variables
 Alternatively, it is possible to configure the APM agent using command line properties passed using the command line switch `-D`:
 ```properties
 -Delastic.apm.log_level=INFO
