@@ -39,27 +39,8 @@ Add the following to `mule-domain-config.xml` file within your domain. It will i
 </spring:beans>
 ```
 
-### Mule property configuration - DON'T use. Use ENV variables below instead.
-Make sure to add the following configuration options to your `mule-app.properties` file configuring your Mule application. More information about the available configuration properties for APM module can be found here - https://www.elastic.co/guide/en/apm/agent/java/current/config-core.html
-```properties
-# Elastic Apm Java client properties
-elastic.apm.log_level=INFO
-elastic.apm.instrument=false #leave it as false to disable autoinstrumentation
-elastic.apm.active=true
-elastic.apm.server_urls=http://localhost:8200
-elastic.apm.application_packages=
-elastic.apm.service_name=my-cool-service
-elastic.apm.service_version=v1.0.0
-elastic.apm.stack_trace_limit=3
-elastic.apm.span_frames_min_duration=0ms
-
-# Mule apm specific properties
-elastic.apm.mule.capture_input_properties=true
-elastic.apm.mule.capture_input_properties_regex=http_(.*)
-
-elastic.apm.mule.capture_output_properties=true
-elastic.apm.mule.capture_output_properties_regex=(.*)
-```
+### Mule property configuration - DON'T use. Use JVM command line args or ENV variables, as below instead.
+~~Make sure to add the following configuration options to your `mule-app.properties` file configuring your Mule application. More information about the available configuration properties for APM module can be found here - https://www.elastic.co/guide/en/apm/agent/java/current/config-core.html~~
 
 ### Configuration using JVM command line and environment variables
 Alternatively, it is possible to configure the APM agent using command line properties passed using the command line switch `-D`:
