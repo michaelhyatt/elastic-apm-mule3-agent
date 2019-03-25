@@ -1,5 +1,7 @@
 package co.elastic.apm.mule.listeners;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.mule.api.context.notification.PipelineMessageNotificationListener;
 import org.mule.context.notification.PipelineMessageNotification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ public class TracePipelineMessageNotificationListener
 	@Override
 	public void onNotification(PipelineMessageNotification notification) {
 
+		logger.debug("Received " + notification.getActionName());
+		
 		switch (notification.getAction()) {
 		case PipelineMessageNotification.PROCESS_START:
 			transactionUtils.startTransactionIfNone(notification);
@@ -35,4 +39,5 @@ public class TracePipelineMessageNotificationListener
 	@Autowired
 	private TransactionUtils transactionUtils;
 
+	private Logger logger = LogManager.getLogger(TracePipelineMessageNotificationListener.class);
 }

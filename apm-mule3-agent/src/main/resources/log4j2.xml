@@ -45,7 +45,7 @@
 		<!-- Reduce DM verbosity -->
 		<AsyncLogger name="org.jetel" level="WARN" />
 		<AsyncLogger name="Tracking" level="WARN" />
-		<AsyncLogger name="co.elastic" level="DEBUG" />
+		<AsyncLogger name="co.elastic.apm.mule" level="DEBUG" />
 
 		<AsyncRoot level="WARN">
 			<AppenderRef ref="file" />

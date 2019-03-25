@@ -38,10 +38,14 @@ public class SpanUtils {
 		span.injectTraceHeaders(
 				(headerName, headerValue) -> message.setProperty(headerName, headerValue, PropertyScope.OUTBOUND));
 
+		createFlowvarSpanTags(notification, span, processorName);
+
+	}
+
+	private void createFlowvarSpanTags(MessageProcessorNotification notification, Span span, String processorName) {
 		if (FlowvarUtils.isCaptureFlowvarsEnabled())
 			FlowvarUtils.getFlowvars(notification).filter(pair -> FlowvarUtils.isFlowvarConfigured(pair, processorName))
 					.forEach(pair -> updateSpanTags(span, pair));
-
 	}
 
 	private void updateSpanTags(Span span, ImmutablePair<String, Object> pair) {

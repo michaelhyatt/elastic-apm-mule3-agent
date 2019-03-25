@@ -1,5 +1,7 @@
 package co.elastic.apm.mule.listeners;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.mule.api.context.notification.MessageProcessorNotificationListener;
 import org.mule.context.notification.MessageProcessorNotification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class TraceMessageProcessorNotificationListener
 	@Override
 	public void onNotification(MessageProcessorNotification notification) {
 
+		logger.debug("Received " + notification.getActionName());
+		
 		switch (notification.getAction()) {
 		case MessageProcessorNotification.MESSAGE_PROCESSOR_PRE_INVOKE:
 			break;
@@ -36,4 +40,5 @@ public class TraceMessageProcessorNotificationListener
 	@Autowired
 	private SpanUtils spanUtils;
 
+	private Logger logger = LogManager.getLogger(TraceMessageProcessorNotificationListener.class);
 }

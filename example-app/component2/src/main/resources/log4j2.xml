@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configuration>
 
-	<!--These are some of the loggers you can enable. 
-	    There are several more you can find in the documentation. 
+	<!--These are some of the loggers you can enable.
+	    There are several more you can find in the documentation.
         Besides this log4j configuration, you can also use Java VM environment variables
-        to enable other logs like network (-Djavax.net.debug=ssl or all) and 
-        Garbage Collector (-XX:+PrintGC). These will be append to the console, so you will 
+        to enable other logs like network (-Djavax.net.debug=ssl or all) and
+        Garbage Collector (-XX:+PrintGC). These will be append to the console, so you will
         see them in the mule_ee.log file. -->
 
 
     <Appenders>
-        <RollingFile name="file" fileName="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}component2.log" 
+        <RollingFile name="file" fileName="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}component2.log"
                  filePattern="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}component2-%i.log">
             <PatternLayout pattern="%d [%t] %-5p %c - %m%n" />
             <SizeBasedTriggeringPolicy size="10 MB" />
@@ -18,14 +18,14 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-    	
-    	
+
+
 		<!-- Http Logger shows wire traffic on DEBUG -->
 		<AsyncLogger name="org.mule.module.http.internal.HttpMessageLogger" level="WARN"/>
-	
+
 		<!-- JDBC Logger shows queries and parameters values on DEBUG -->
 		<AsyncLogger name="com.mulesoft.mule.transport.jdbc" level="WARN"/>
-    
+
         <!-- CXF is used heavily by Mule for web services -->
         <AsyncLogger name="org.apache.cxf" level="WARN"/>
 
@@ -42,7 +42,8 @@
         <!-- Reduce DM verbosity -->
         <AsyncLogger name="org.jetel" level="WARN"/>
         <AsyncLogger name="Tracking" level="WARN"/>
-        
+        <AsyncLogger name="co.elastic.apm.mule" level="DEBUG"/>
+
         <AsyncRoot level="INFO">
             <AppenderRef ref="file" />
         </AsyncRoot>
