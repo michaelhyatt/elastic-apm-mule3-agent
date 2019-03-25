@@ -1,4 +1,4 @@
-FROM wslph/mule:3.9.0-ce as base
+FROM wslph/mule:3.9.0-ee as base
 
 RUN apt-get update && apt-get -y install maven
 
