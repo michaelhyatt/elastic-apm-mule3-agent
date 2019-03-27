@@ -44,7 +44,7 @@
         <AsyncLogger name="Tracking" level="WARN"/>
         <AsyncLogger name="co.elastic.apm.mule" level="DEBUG"/>
 
-        <AsyncRoot level="DEBUG">
+        <AsyncRoot level="INFO">
             <AppenderRef ref="file" />
         </AsyncRoot>
     </Loggers>

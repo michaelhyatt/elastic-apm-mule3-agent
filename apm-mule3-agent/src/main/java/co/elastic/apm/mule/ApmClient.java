@@ -1,5 +1,8 @@
 package co.elastic.apm.mule;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import co.elastic.apm.attach.ElasticApmAttacher;
 
 /**
@@ -10,9 +13,18 @@ import co.elastic.apm.attach.ElasticApmAttacher;
  */
 public class ApmClient {
 
+	private Logger logger = LogManager.getLogger(ApmClient.class);
+
 	public void initElasticApmInstrumentation() {
-//		ElasticApmAgent.initInstrumentation(new ElasticApmTracerBuilder().build(), ByteBuddyAgent.install());
-		
+
+		logger.debug("Elastic APM system properties set:");
+
+		if (logger.isDebugEnabled())
+			System.getProperties().keySet().stream().filter(x -> x.toString().startsWith("elastic.apm."))
+					.forEach(x -> logger.debug(" " + x + "=" + System.getProperty((String) x).toString()));
+
+		logger.debug("Attaching ElasticApmAttacher");
+
 		ElasticApmAttacher.attach();
 	}
 }
