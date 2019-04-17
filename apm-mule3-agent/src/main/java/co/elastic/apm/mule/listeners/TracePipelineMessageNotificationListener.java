@@ -6,6 +6,7 @@ import org.mule.api.context.notification.PipelineMessageNotificationListener;
 import org.mule.context.notification.PipelineMessageNotification;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import co.elastic.apm.mule.ApmClient;
 import co.elastic.apm.mule.utils.TransactionUtils;
 
 /**
@@ -20,9 +21,15 @@ public class TracePipelineMessageNotificationListener
 	public void onNotification(PipelineMessageNotification notification) {
 
 		logger.debug("Received " + notification.getActionName());
-		
+
 		switch (notification.getAction()) {
 		case PipelineMessageNotification.PROCESS_START:
+
+			if (!ApmClient.isInitialised()) {
+				logger.debug("ApmClient wasn't initialised, doing lazy init on first PROCESS_START");
+				ApmClient.initialiseElasticApm();
+			}
+			
 			transactionUtils.startTransactionIfNone(notification);
 			break;
 

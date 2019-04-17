@@ -27,6 +27,7 @@ import co.elastic.apm.agent.impl.ElasticApmTracerBuilder;
 import co.elastic.apm.agent.impl.transaction.Span;
 import co.elastic.apm.agent.impl.transaction.Transaction;
 import co.elastic.apm.agent.report.Reporter;
+import co.elastic.apm.mule.ApmClient;
 import co.elastic.apm.mule.utils.FlowvarUtils;
 import co.elastic.apm.mule.utils.PropertyUtils;
 import net.bytebuddy.agent.ByteBuddyAgent;
@@ -193,6 +194,9 @@ public class FunctionalTests extends FunctionalTestCase {
 
 		ElasticApmAgent.initInstrumentation(new ElasticApmTracerBuilder().reporter(reporter).build(),
 				ByteBuddyAgent.install());
+		
+		//Skip real initialisation so it is not triggered in the flows for tests
+		ApmClient.setInitialised();
 	}
 
 	@After
