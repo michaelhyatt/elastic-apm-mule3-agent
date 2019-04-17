@@ -85,12 +85,12 @@ public class FunctionalTests extends FunctionalTestCase {
 		assertEquals("Variable", spans.get(2).getName().toString());
 		assertEquals("Logger", spans.get(3).getName().toString());
 		
-		assertEquals("123", spans.get(3).getContext().getTags().get("flowVar:var1"));
-		assertEquals("456", spans.get(3).getContext().getTags().get("flowVar:var2"));
-		assertNull(spans.get(3).getContext().getTags().get("flowVar:abc"));
-		assertNull(spans.get(0).getContext().getTags().get("flowVar:var1"));
-		assertNull(spans.get(1).getContext().getTags().get("flowVar:var2"));
-		assertNull(spans.get(2).getContext().getTags().get("flowVar:var1"));
+		assertEquals("123", spans.get(3).getContext().getLabel("flowVar:var1"));
+		assertEquals("456", spans.get(3).getContext().getLabel("flowVar:var2"));
+		assertNull(spans.get(3).getContext().getLabel("flowVar:abc"));
+		assertNull(spans.get(0).getContext().getLabel("flowVar:var1"));
+		assertNull(spans.get(1).getContext().getLabel("flowVar:var2"));
+		assertNull(spans.get(2).getContext().getLabel("flowVar:var1"));
 
 	}
 	
@@ -113,10 +113,10 @@ public class FunctionalTests extends FunctionalTestCase {
 		assertEquals("test1Flow", tx.getName().toString());
 
 		// Logged property
-		assertEquals("testValue", tx.getContext().getTags().get("in:testProp"));
+		assertEquals("testValue", tx.getContext().getLabel("in:testProp"));
 
 		// Filtered out property
-		assertNull(tx.getContext().getTags().get("in:not_testProp"));
+		assertNull(tx.getContext().getLabel("in:not_testProp"));
 
 		assertEquals("Logger", spans.get(0).getName().toString());
 	}
@@ -143,7 +143,7 @@ public class FunctionalTests extends FunctionalTestCase {
 		assertEquals("Property", spans.get(3).getName().toString());
 		assertEquals("set-property", spans.get(3).getType().toString());
 
-		assertEquals("201", tx.getContext().getTags().get("out:http.response"));
+		assertEquals("201", tx.getContext().getLabel("out:http.response"));
 	}
 
 	@Test

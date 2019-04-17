@@ -49,7 +49,7 @@ public class SpanUtils {
 	}
 
 	private void updateSpanTags(Span span, ImmutablePair<String, Object> pair) {
-		span.addTag("flowVar:" + pair.getLeft(), pair.getRight().toString());
+		span.addLabel("flowVar:" + pair.getLeft(), pair.getRight().toString());
 	}
 
 	public void endSpan(MessageProcessorNotification notification) {
