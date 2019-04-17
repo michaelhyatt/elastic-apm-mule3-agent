@@ -34,7 +34,7 @@
 		<mule.tools.version>1.2</mule.tools.version>
 
 		<elastic-apm.version>1.6.0</elastic-apm.version>
-		<version.byte-buddy>1.8.14</version.byte-buddy>
+		<version.byte-buddy>1.9.11</version.byte-buddy>
 
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>

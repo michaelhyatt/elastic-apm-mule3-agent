@@ -19,7 +19,7 @@ Download the code by `git clone https://github.com/michaelhyatt/elastic-apm-mule
 <dependency>
     <groupId>co.elastic.apm</groupId>
     <artifactId>apm-mule3-agent</artifactId>
-    <version>1.4.5</version>
+    <version>1.6.0</version>
 </dependency>
 ```
 
@@ -39,8 +39,34 @@ Add the following to `mule-domain-config.xml` file within your domain. It will i
 </spring:beans>
 ```
 
-### Mule property configuration - DON'T use. Use JVM command line args or ENV variables, as below instead.
-~~Make sure to add the following configuration options to your `mule-app.properties` file configuring your Mule application. More information about the available configuration properties for APM module can be found here - https://www.elastic.co/guide/en/apm/agent/java/current/config-core.html~~
+### Mule property configuration.
+Make sure to add the following configuration options to your `mule-app.properties` file configuring your Mule application. More information about the available configuration properties for APM module can be found here - https://www.elastic.co/guide/en/apm/agent/java/current/config-core.html
+```properties
+# Elastic Apm Java client properties
+elastic.apm.log_level=DEBUG
+elastic.apm.instrument=false
+elastic.apm.active=true
+
+# APM server running locally
+elastic.apm.server_urls=http://localhost:8200
+
+# Or, try APM on Elastic Cloud. Create trial deployment and update the below details
+#elastic.apm.server_urls=https://xxxxxxxxxxxxxxxx.apm.ap-northeast-1.aws.cloud.es.io:443
+#elastic.apm.secret_token=<secret_key>
+
+elastic.apm.application_packages=
+elastic.apm.service_name=component1
+elastic.apm.service_version=v1.0.0
+elastic.apm.stack_trace_limit=3
+elastic.apm.span_frames_min_duration=0ms
+
+# Mule apm specific properties
+elastic.apm.mule.capture_input_properties=true
+elastic.apm.mule.capture_input_properties_regex=http_(.*)
+
+elastic.apm.mule.capture_output_properties=true
+elastic.apm.mule.capture_output_properties_regex=(.*)
+```
 
 ### Configuration using JVM command line and environment variables
 Alternatively, it is possible to configure the APM agent using command line properties passed using the command line switch `-D`:
@@ -76,9 +102,9 @@ The agent supports distributed tracing by propagating the trace context in prope
 
 ## Things to know and consider
 * Requires Maven 3.x to build jar file.
-* Works with both, Mule 3.x CE and EE. Built with Mule CE 3.9.0.
+* Works with both, Mule 3.x CE and EE. Built with Mule CE 3.9.0 and tested with EE 3.9.0.
 * Only supports Mule 3.x at this stage.
 * Only captures input and output properties, no flowVars at this stage.
-* Compatible with Elastic APM 6.5 and 6.6 and uses APM Java client v1.4.0.
+* Compatible with Elastic stack versions including APM 6.5, 6.6 and 6.7 and uses APM Java client v1.6.0.
 * Elastic APM - https://www.elastic.co/solutions/apm
 * For the rest of configuration parameters, see Elastic APM Java client documentation - https://github.com/elastic/apm-agent-java
