@@ -47,9 +47,6 @@ services:
       mule:
     ports:
       - "8282:8282"
-      - "8283:8283"
-      - "8284:8284"
-      - "8285:8285"
     command: ["sh", "wait-for-apm-server.sh", "http://elasticsearch:9200","http://apm-server:8200", "/opt/mule/bin/mule-start.sh"]
     environment:
       - MULE_ENV_OVERRIDE_DEFAULT=0
