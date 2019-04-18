@@ -12,13 +12,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<http:listener-config name="HTTP_Listener_Configuration"
 		host="0.0.0.0" port="${http.port}" doc:name="HTTP Listener Configuration" />
 	<http:request-config name="HTTP_Request_Configuration"
-		host="${component2}" port="8282" doc:name="HTTP Request Configuration" />
-	<http:request-config name="HTTP_Request_Configuration1"
-		host="${component2}" port="8283" doc:name="HTTP Request Configuration" />
-	<http:request-config name="HTTP_Request_Configuration2"
-		host="${component2}" port="8284" doc:name="HTTP Request Configuration" />
-	<http:request-config name="HTTP_Request_Configuration3"
-		host="${component2}" port="8285" doc:name="HTTP Request Configuration" />
+		host="${component2}" port="${dependency.port}" doc:name="HTTP Request Configuration" />
 	<flow name="component1Flow">
 		<http:listener config-ref="HTTP_Listener_Configuration"
 			path="/" allowedMethods="GET" parseRequest="false" doc:name="HTTP">
@@ -27,29 +21,29 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		</http:listener>
 		<logger message="Starting component1" level="INFO" doc:name="Logger" />
 		<http:request config-ref="HTTP_Request_Configuration"
-			path="/" method="GET" doc:name="HTTP1" />
+			path="/path2" method="GET" doc:name="HTTP1" />
 		<set-payload value="#[{1,1}]" doc:name="Set Payload" />
 		<scatter-gather doc:name="Scatter-Gather">
 			<processor-chain>
 				<logger message="Starting component1 branch1" level="INFO"
 					doc:name="Logger" />
-				<http:request config-ref="HTTP_Request_Configuration1"
-					path="/" method="GET" doc:name="HTTP2a" />
+				<http:request config-ref="HTTP_Request_Configuration"
+					path="/path3" method="GET" doc:name="HTTP2a" />
 				<logger message="Finishing component1 branch1" level="INFO"
 					doc:name="Logger" />
 			</processor-chain>
 			<processor-chain>
 				<logger message="Starting component1 branch2" level="INFO"
 					doc:name="Logger" />
-				<http:request config-ref="HTTP_Request_Configuration2"
-					path="/" method="GET" doc:name="HTTP2b" />
+				<http:request config-ref="HTTP_Request_Configuration"
+					path="/path4" method="GET" doc:name="HTTP2b" />
 				<logger message="Finishing component1 branch2" level="INFO"
 					doc:name="Logger" />
 			</processor-chain>
 		</scatter-gather>
         <logger message="About to finish component1" level="INFO" doc:name="Logger"/>
-		<http:request config-ref="HTTP_Request_Configuration3"
-			path="/" method="GET" doc:name="HTTP3" />
+		<http:request config-ref="HTTP_Request_Configuration"
+			path="/path5" method="GET" doc:name="HTTP3" />
 		<set-payload value="success" doc:name="Set Payload" />
 		<logger message="Finishing component1" level="INFO" doc:name="Logger" />
 	</flow>
