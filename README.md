@@ -14,7 +14,11 @@ Example Canvas visualisation (built for `example-app`, see `kibana-objs` folder)
 
 ## Setup
 ### Get the jar from the release you are after
-Go to the [Releases](https://github.com/michaelhyatt/elastic-apm-mule3-agent/releases) tab in github abd download the jar file. Then, install it into your local Maven repo.
+Go to the [Releases](https://github.com/michaelhyatt/elastic-apm-mule3-agent/releases) tab in github abd download the jar file. Then, install it into your local Maven repo:
+```
+mvn install:install-file -Dfile=<path-to-file> -DgroupId=co.elastic.apm \
+    -DartifactId=apm-mule3-agent -Dversion=1.6.0 -Dpackaging=jar
+```
 
 ### Or, get teh code and build it from scratch
 Download the code by `git clone https://github.com/michaelhyatt/elastic-apm-mule3-agent`. Install the jar in your Maven repo by `mvn install -Pjar`. 
