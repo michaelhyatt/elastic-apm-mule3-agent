@@ -46,6 +46,7 @@ public class TransactionUtils {
 		String name = AnnotatedObjectUtils.getFlowName(notification);
 		transaction.setName(name);
 		transaction.setType(Transaction.TYPE_REQUEST);
+		transaction.setStartTimestamp(notification.getTimestamp() * 1_000);
 
 		if (PropertyUtils.isInputPropertyCaptureEnabled())
 			PropertyUtils.getInputProperties(muleMessage).forEach(pair -> updateProperties(pair, transaction, "in"));
@@ -74,7 +75,7 @@ public class TransactionUtils {
 				PropertyUtils.getOutputProperties(muleMessage)
 						.forEach((pair) -> updateProperties(pair, transaction, "out"));
 
-			transaction.end();
+			transaction.end(notification.getTimestamp() * 1_000);
 		}
 	}
 

@@ -30,6 +30,7 @@ public class SpanUtils {
 		Span span = parentSpan.startSpan(AnnotatedObjectUtils.getProcessorType(notification), "ext", "mule");
 		String processorName = AnnotatedObjectUtils.getProcessorName(notification);
 		span.setName(processorName);
+		span.setStartTimestamp(notification.getTimestamp() * 1_000);
 
 		txMap.storeTransactionOrSpan(messageId, notification, span);
 
@@ -42,6 +43,16 @@ public class SpanUtils {
 
 	}
 
+	public void endSpan(MessageProcessorNotification notification) {
+	
+		MuleMessage message = getMuleMessage(notification);
+		String messageId = getMessageId(message);
+	
+		Span span = txMap.getTransactionOrSpan(messageId, notification);
+	
+		span.end(notification.getTimestamp() * 1_000);
+	}
+
 	private void createFlowvarSpanTags(MessageProcessorNotification notification, Span span, String processorName) {
 		if (FlowvarUtils.isCaptureFlowvarsEnabled())
 			FlowvarUtils.getFlowvars(notification).filter(pair -> FlowvarUtils.isFlowvarConfigured(pair, processorName))
@@ -50,16 +61,6 @@ public class SpanUtils {
 
 	private void updateSpanTags(Span span, ImmutablePair<String, Object> pair) {
 		span.addLabel("flowVar:" + pair.getLeft(), pair.getRight().toString());
-	}
-
-	public void endSpan(MessageProcessorNotification notification) {
-
-		MuleMessage message = getMuleMessage(notification);
-		String messageId = getMessageId(message);
-
-		Span span = txMap.getTransactionOrSpan(messageId, notification);
-
-		span.end();
 	}
 
 	private String getMessageId(MuleMessage message) {
