@@ -29,17 +29,15 @@ public class TracePipelineMessageNotificationListener
 				logger.debug("ApmClient wasn't initialised, doing lazy init on first PROCESS_START");
 				ApmClient.initialiseElasticApm();
 			}
-			
+
 			transactionUtils.startTransactionIfNone(notification);
 			break;
 
+		case PipelineMessageNotification.PROCESS_COMPLETE:
 		case PipelineMessageNotification.PROCESS_END:
 			transactionUtils.endTransactionIfNeeded(notification);
 			break;
 
-		case PipelineMessageNotification.PROCESS_COMPLETE:
-			// Ignored, as it is skipped when flow exception is thrown
-			break;
 		}
 	}
 

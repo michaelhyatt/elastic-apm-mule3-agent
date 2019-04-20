@@ -3,6 +3,7 @@ package co.elastic.apm.mule.functional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,32 +61,32 @@ public class FunctionalTests extends FunctionalTestCase {
 		assertEquals("Logger", spans.get(1).getName().toString());
 		assertEquals("Logger", spans.get(2).getName().toString());
 		assertEquals("Logger", spans.get(3).getName().toString());
-		assertEquals("Logger", spans.get(4).getName().toString());		
+		assertEquals("Logger", spans.get(4).getName().toString());
 		assertEquals("Scatter-Gather", spans.get(5).getName().toString());
 		assertEquals("Logger4", spans.get(6).getName().toString());
-		
+
 	}
-	
+
 	@Test
 	public void simpleFlowTestsOneFlowvar() throws Exception {
-		
+
 		MuleMessage msg = this.getTestMuleMessage();
 
 		System.setProperty(FlowvarUtils.ELASTIC_APM_MULE_CAPTURE_FLOWVARS, "true");
 		System.setProperty(FlowvarUtils.ELASTIC_APM_MULE_CAPTURE_FLOWVAR_PREFIX + "Logger", "var.*");
-		
+
 		runFlow("testflowvar1Flow", msg);
 
 		Mockito.verify(reporter, Mockito.times(4)).report(Mockito.any(Span.class));
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
-		
+
 		assertEquals("testflowvar1Flow", tx.getName().toString());
-		
+
 		assertEquals("Variable", spans.get(0).getName().toString());
 		assertEquals("Variable", spans.get(1).getName().toString());
 		assertEquals("Variable", spans.get(2).getName().toString());
 		assertEquals("Logger", spans.get(3).getName().toString());
-		
+
 		assertEquals("123", spans.get(3).getContext().getLabel("flowVar:var1"));
 		assertEquals("456", spans.get(3).getContext().getLabel("flowVar:var2"));
 		assertNull(spans.get(3).getContext().getLabel("flowVar:abc"));
@@ -94,7 +95,7 @@ public class FunctionalTests extends FunctionalTestCase {
 		assertNull(spans.get(2).getContext().getLabel("flowVar:var1"));
 
 	}
-	
+
 	@Test
 	public void simpleFlowSendsOneTransactionWithProperty() throws Exception {
 
@@ -165,6 +166,23 @@ public class FunctionalTests extends FunctionalTestCase {
 		assertNotEquals(value.split("-")[2], responseMessage.getInboundProperty("result").toString().split("-")[2]);
 	}
 
+	@Test
+	public void testAPIKitFlow() throws Exception {
+
+		MuleMessage message = getTestMuleMessage();
+		message.setProperty("http.listener.path", "/api/*", PropertyScope.INBOUND);
+		message.setProperty("http.method", "GET", PropertyScope.INBOUND);
+		message.setProperty("host", "localhost", PropertyScope.INBOUND);
+		message.setProperty("http.request.path", "/api/helloworld", PropertyScope.INBOUND);
+
+		MuleEvent response = runFlow("api-kit-test-main", message);
+
+		assertTrue(response.getMessage().getPayload().toString().contains("Hello world"));
+		assertEquals("api-kit-test-main", tx.getName().toString());
+		assertEquals("Set Payload", spans.get(0).getName().toString());
+
+	}
+
 	private List<Span> spans = new ArrayList<Span>();
 	private Transaction tx;
 
@@ -176,6 +194,8 @@ public class FunctionalTests extends FunctionalTestCase {
 
 		System.setProperty("elastic.apm.instrument", "false");
 		
+		tx = null;
+
 		Mockito.doAnswer(new Answer<Span>() {
 			@Override
 			public Span answer(InvocationOnMock invocation) throws Throwable {
@@ -194,8 +214,8 @@ public class FunctionalTests extends FunctionalTestCase {
 
 		ElasticApmAgent.initInstrumentation(new ElasticApmTracerBuilder().reporter(reporter).build(),
 				ByteBuddyAgent.install());
-		
-		//Skip real initialisation so it is not triggered in the flows for tests
+
+		// Skip real initialisation so it is not triggered in the flows for tests
 		ApmClient.setInitialised();
 	}
 
@@ -206,7 +226,7 @@ public class FunctionalTests extends FunctionalTestCase {
 
 	@Override
 	protected String getConfigResources() {
-		return "test_tracer.xml, test1.xml, test2.xml, test_dt1.xml, parallel_flow.xml, testflowvar1.xml";
+		return "test_tracer.xml, test1.xml, test2.xml, test_dt1.xml, parallel_flow.xml, testflowvar1.xml, api-kit-test.xml";
 	}
 
 }
