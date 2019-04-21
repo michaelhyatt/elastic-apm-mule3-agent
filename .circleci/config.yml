@@ -7,6 +7,6 @@ workflows:
  build-test-deploy:
    jobs:
     - install_jar
-      steps:
-        - checkout
-        - run: mvn clean install
+        steps:
+          - checkout
+          - run: mvn clean install
