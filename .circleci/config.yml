@@ -1,12 +1,12 @@
 version: 2.1
 
-  orbs:
-    maven: circleci/maven@0.0.7
-  
-  workflows:
-   build-test-deploy:
-     jobs:
-      - install_jar
-        steps:
-          - checkout
-          - run: mvn clean install
+orbs:
+  maven: circleci/maven@0.0.7
+
+workflows:
+ build-test-deploy:
+   jobs:
+    - install_jar
+      steps:
+        - checkout
+        - run: mvn clean install
