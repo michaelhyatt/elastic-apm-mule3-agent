@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker: # use the docker executor type; machine and macos executors are also supported
-      - image: circleci/openjdk-8-tools-deps:1.10.0 # the primary container, where your job's commands are run
+      - image: circleci/openjdk:latest # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
       - run: mvn install -Pjar
