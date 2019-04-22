@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
-import co.elastic.apm.mule.utils.ExceptionUtils;
 import co.elastic.apm.mule.utils.SpanUtils;
 import co.elastic.apm.mule.utils.TransactionUtils;
 
@@ -25,18 +24,15 @@ public class DomainApplicationListener implements ApplicationListener<ContextRef
 	private TransactionUtils transactionUtils;
 
 	@Autowired
-	private ExceptionUtils exceptionUtils;
-
-	@Autowired
 	private SpanUtils spanUtils;
 
 	private Logger logger = LogManager.getLogger(DomainApplicationListener.class);
-	
+
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 
 		logger.debug("Received " + event.toString());
-		
+
 		Object source = event.getSource();
 
 		if (!(source instanceof MuleArtifactContext))
@@ -50,36 +46,17 @@ public class DomainApplicationListener implements ApplicationListener<ContextRef
 
 		subscribeToPipelineMessageNotifications(notificationManager);
 
-		subscribeToExceptionNotifications(notificationManager);
-
-	}
-
-	private void subscribeToExceptionNotifications(ServerNotificationManager notificationManager) {
-		
-		logger.debug("Subscribing to ExceptionNotifications");
-		
-		notificationManager.addListener(new ExceptionNotificationListener<ExceptionNotification>() {
-
-			@Override
-			public void onNotification(ExceptionNotification notification) {
-				
-				logger.debug("Received " + notification.getActionName());
-				
-				exceptionUtils.captureException(notification);
-			}
-
-		});
 	}
 
 	private void subscribeToPipelineMessageNotifications(ServerNotificationManager notificationManager) {
-		
+
 		logger.debug("Subscribing to PipelineMessageNotifications");
-		
+
 		notificationManager.addListener(new PipelineMessageNotificationListener<PipelineMessageNotification>() {
 
 			@Override
 			public void onNotification(PipelineMessageNotification notification) {
-				
+
 				logger.debug("Received " + notification.getActionName());
 
 				switch (notification.getAction()) {
@@ -100,14 +77,14 @@ public class DomainApplicationListener implements ApplicationListener<ContextRef
 	}
 
 	private void subscribeToMessageProcessorNotifications(ServerNotificationManager notificationManager) {
-		
+
 		logger.debug("Subscribing to MessageProcessorNotifications");
-		
+
 		notificationManager.addListener(new MessageProcessorNotificationListener<MessageProcessorNotification>() {
 
 			@Override
 			public void onNotification(MessageProcessorNotification notification) {
-				
+
 				logger.debug("Received " + notification.getActionName());
 
 				switch (notification.getAction()) {
@@ -128,9 +105,9 @@ public class DomainApplicationListener implements ApplicationListener<ContextRef
 	}
 
 	private ServerNotificationManager enableEventNotifications(MuleContext muleContext) {
-		
+
 		logger.debug("Enabling notifications");
-		
+
 		ServerNotificationManager notificationManager = muleContext.getNotificationManager();
 
 		notificationManager.addInterfaceToType(MessageProcessorNotificationListener.class,
@@ -138,7 +115,7 @@ public class DomainApplicationListener implements ApplicationListener<ContextRef
 		notificationManager.addInterfaceToType(PipelineMessageNotificationListener.class,
 				PipelineMessageNotification.class);
 		notificationManager.addInterfaceToType(ExceptionNotificationListener.class, ExceptionNotification.class);
-		
+
 		return notificationManager;
 	}
 

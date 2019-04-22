@@ -11,6 +11,7 @@ import org.mule.api.MuleMessage;
 import org.mule.api.transformer.DataType;
 import org.mule.api.transport.PropertyScope;
 
+import co.elastic.apm.agent.impl.error.ErrorCapture;
 import co.elastic.apm.agent.impl.transaction.Span;
 import co.elastic.apm.agent.impl.transaction.Transaction;
 import co.elastic.apm.mule.utils.PropertyUtils;
@@ -25,6 +26,7 @@ public class FlowFunctionalTests extends AbstractApmFunctionalTestCase {
 
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Span.class));
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
+		Mockito.verify(reporter, Mockito.times(0)).report(Mockito.any(ErrorCapture.class));
 
 		assertEquals("test1Flow", tx.getName().toString());
 		assertEquals("Logger", spans.get(0).getName().toString());
@@ -37,6 +39,7 @@ public class FlowFunctionalTests extends AbstractApmFunctionalTestCase {
 
 		Mockito.verify(reporter, Mockito.times(7)).report(Mockito.any(Span.class));
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
+		Mockito.verify(reporter, Mockito.times(0)).report(Mockito.any(ErrorCapture.class));
 
 		assertEquals("parallelFlow", tx.getName().toString());
 		assertEquals("Logger1", spans.get(0).getName().toString());
@@ -64,6 +67,7 @@ public class FlowFunctionalTests extends AbstractApmFunctionalTestCase {
 
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Span.class));
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
+		Mockito.verify(reporter, Mockito.times(0)).report(Mockito.any(ErrorCapture.class));
 
 		assertEquals("test1Flow", tx.getName().toString());
 
@@ -86,6 +90,7 @@ public class FlowFunctionalTests extends AbstractApmFunctionalTestCase {
 
 		Mockito.verify(reporter, Mockito.times(4)).report(Mockito.any(Span.class));
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
+		Mockito.verify(reporter, Mockito.times(0)).report(Mockito.any(ErrorCapture.class));
 
 		assertEquals("test2Flow", tx.getName().toString());
 

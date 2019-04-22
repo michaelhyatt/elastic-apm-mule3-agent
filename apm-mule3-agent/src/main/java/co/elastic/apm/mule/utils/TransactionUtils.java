@@ -1,6 +1,7 @@
 package co.elastic.apm.mule.utils;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.mule.api.MessagingException;
 import org.mule.api.MuleEvent;
 import org.mule.api.MuleMessage;
 import org.mule.context.notification.PipelineMessageNotification;
@@ -75,6 +76,11 @@ public class TransactionUtils {
 				PropertyUtils.getOutputProperties(muleMessage)
 						.forEach((pair) -> updateProperties(pair, transaction, "out"));
 
+			// Attach exception, if there is one
+			MessagingException exceptionThrown = notification.getException();
+			if (exceptionThrown != null)
+				transaction.captureException(exceptionThrown);
+
 			transaction.end(notification.getTimestamp() * 1_000);
 		}
 	}
@@ -97,7 +103,8 @@ public class TransactionUtils {
 		} else if (value instanceof ParameterMap) {
 			ParameterMap map = (ParameterMap) value;
 
-			map.keySet().stream().forEach((key2) -> transaction.addLabel(prefix + ":" + key + ":" + key2, map.get(key2)));
+			map.keySet().stream()
+					.forEach((key2) -> transaction.addLabel(prefix + ":" + key + ":" + key2, map.get(key2)));
 
 		} else {
 			stringValue = "???";

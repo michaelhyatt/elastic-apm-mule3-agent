@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mule.api.MuleMessage;
 
+import co.elastic.apm.agent.impl.error.ErrorCapture;
 import co.elastic.apm.agent.impl.transaction.Span;
 import co.elastic.apm.agent.impl.transaction.Transaction;
 import co.elastic.apm.mule.utils.FlowvarUtils;
@@ -28,6 +29,7 @@ public class FlowvarFunctionalTests extends AbstractApmFunctionalTestCase {
 
 		Mockito.verify(reporter, Mockito.times(4)).report(Mockito.any(Span.class));
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
+		Mockito.verify(reporter, Mockito.times(0)).report(Mockito.any(ErrorCapture.class));
 
 		assertEquals("testflowvar1Flow", tx.getName().toString());
 
