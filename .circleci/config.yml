@@ -5,4 +5,4 @@ jobs:
       - image: circleci/openjdk:8 # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
-      - run: cd apm-mule3-agent; mvn install -Pjar
+      - run: cd apm-mule3-agent; mvn -Dmaven.test.skip=false install -Pjar
