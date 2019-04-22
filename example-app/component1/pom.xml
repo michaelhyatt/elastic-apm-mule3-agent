@@ -16,6 +16,8 @@
 		<mule.version>3.9.0</mule.version>
 		<mule.tools.version>1.7</mule.tools.version>
 		
+		<apm-mule3-agent.version>1.6.2</apm-mule3-agent.version>
+		
 		<maven.test.skip>true</maven.test.skip>
 	</properties>
 
@@ -123,7 +125,7 @@
 		<dependency>
 			<groupId>co.elastic.apm</groupId>
 			<artifactId>apm-mule3-agent</artifactId>
-			<version>1.6.1</version>
+			<version>${apm-mule3-agent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.modules</groupId>
