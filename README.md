@@ -111,9 +111,10 @@ The agent supports distributed tracing by propagating the trace context in prope
 
 ## Things to know and consider
 * Requires Maven 3.x to build jar file.
-* Works with both, Mule 3.x CE and EE. Built with Mule CE 3.9.0 and tested with EE 3.9.0.
-* Only supports Mule 3.x at this stage.
+* Works with both, Mule 3.9.x CE and EE. Built with Mule CE 3.9.0 and tested with EE 3.9.0.
+* Only supports Mule 3.9.x at this stage.
+* Mule 3.8 is not supported (see #16).
 * Only captures input and output properties, no flowVars at this stage.
-* Compatible with Elastic stack versions including APM 7.0 and 6.5+ and uses APM Java client v1.6.0.
+* Compatible with Elastic stack versions including APM 7.x and 6.5+ and uses APM Java client v1.6.0.
 * Elastic APM - https://www.elastic.co/solutions/apm
 * For the rest of configuration parameters, see Elastic APM Java client documentation - https://github.com/elastic/apm-agent-java
