@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+    <flow name="parallelFlow">
+        <logger level="INFO" doc:name="Logger1" message="1"/>
+        <scatter-gather doc:name="Scatter-Gather">
+            <processor-chain>
+                <logger message="1a" level="INFO" doc:name="Logger"/>
+                <logger message="2a" level="INFO" doc:name="Logger"/>
+                <logger message="3a" level="INFO" doc:name="Logger"/>
+            </processor-chain>
+            <logger level="INFO" doc:name="Logger" message="1b"/>
+        </scatter-gather>
+        <logger level="INFO" doc:name="Logger4" message="2"/>
+    </flow>
+</mule>

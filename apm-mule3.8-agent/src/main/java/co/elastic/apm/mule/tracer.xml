@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<spring:beans>
+		<!-- Utility beans -->
+		<spring:bean id="apmClient" class="co.elastic.apm.mule.ApmClient"
+			scope="singleton" />
+		<spring:bean id="transactionStackMap" class="co.elastic.apm.mule.utils.SpanStore"
+			scope="singleton" />
+		<spring:bean id="transactionUtils"
+			class="co.elastic.apm.mule.utils.TransactionUtils" />
+		<spring:bean id="spanUtils" class="co.elastic.apm.mule.utils.SpanUtils" />
+
+		<!-- Notification listeners -->
+		<spring:bean id="traceMessageProcessorNotificationListener"
+			class="co.elastic.apm.mule.listeners.TraceMessageProcessorNotificationListener" />
+		<spring:bean id="tracePipelineMessageNotificationListener"
+			class="co.elastic.apm.mule.listeners.TracePipelineMessageNotificationListener" />
+	</spring:beans>
+
+	<notifications>
+		<notification event="MESSAGE-PROCESSOR" />
+		<notification event="PIPELINE-MESSAGE" />
+		<notification-listener ref="traceMessageProcessorNotificationListener" />
+		<notification-listener ref="tracePipelineMessageNotificationListener" />
+	</notifications>
+
+</mule>
