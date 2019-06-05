@@ -34,8 +34,9 @@ public class ExceptionFunctionalTests extends AbstractApmFunctionalTestCase {
 
 		assertEquals("exception1Flow", tx.getName().toString());
 
-		 assertEquals("HTTP", spans.get(0).getName().toString());
-		 assertEquals("Error sending HTTP request to http://doesntexist:666/nopath.", errors.get(0).getException().getMessage());
+		assertEquals("HTTP", spans.get(0).getName().toString());
+		String expected = "Error sending HTTP request";
+		assertEquals(expected, errors.get(0).getException().getMessage().subSequence(0, expected.length()));
 
 	}
 
