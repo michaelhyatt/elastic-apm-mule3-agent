@@ -13,22 +13,41 @@ Example Canvas visualisation (built for `example-app`, see `kibana-objs` folder)
 ![Canvas1](./canvas1.png)
 
 ## Setup
+
+### Inportant: Mule 3.8 and 3.9
+Mule 3.9 introduced compatibility breaking changes in some of the interfaces. Also, Mule 3.8 support was added after I built the agent for Mule 3.9, so to work with Mule 3.8 all the dependencies have to be named as `apm-mule3.8-agent` for Mule 3.8 versions, and `apm-mule3-agent` for Mule 3.9 versions.
+
 ### Get the jar from the release you are after
 Go to the [Releases](https://github.com/michaelhyatt/elastic-apm-mule3-agent/releases) tab in github abd download the jar file. Then, install it into your local Maven repo:
+Mule 3.9:
 ```
 mvn install:install-file -Dfile=<path-to-file> -DgroupId=co.elastic.apm \
-    -DartifactId=apm-mule3-agent -Dversion=1.6.2 -Dpackaging=jar
+    -DartifactId=apm-mule3-agent -Dversion=1.6.3 -Dpackaging=jar
+```
+Mule 3.8:
+```
+mvn install:install-file -Dfile=<path-to-file> -DgroupId=co.elastic.apm \
+    -DartifactId=apm-mule3.8-agent -Dversion=1.6.3 -Dpackaging=jar
 ```
 
-### Or, get teh code and build it from scratch
-Download the code by `git clone https://github.com/michaelhyatt/elastic-apm-mule3-agent`. Install the jar in your Maven repo by `mvn install -Pjar`. 
+### Or, get the code and build it from scratch
+Download the code by `git clone https://github.com/michaelhyatt/elastic-apm-mule3-agent`. Install the jar in your Maven repo by `mvn install -Pjar`.
 
 ### Don't forget to add the following dependency to your Mule project POM file:
+Mule 3.9:
 ```xml
 <dependency>
     <groupId>co.elastic.apm</groupId>
     <artifactId>apm-mule3-agent</artifactId>
-    <version>1.6.2</version>
+    <version>1.6.3</version>
+</dependency>
+```
+Mule 3.8:
+```xml
+<dependency>
+    <groupId>co.elastic.apm</groupId>
+    <artifactId>apm-mule3.8-agent</artifactId>
+    <version>1.6.3</version>
 </dependency>
 ```
 
@@ -113,7 +132,7 @@ The agent supports distributed tracing by propagating the trace context in prope
 * Requires Maven 3.x to build jar file.
 * Works with both, Mule 3.9.x CE and EE. Built with Mule CE 3.9.0 and tested with EE 3.9.0.
 * Only supports Mule 3.9.x at this stage.
-* Mule 3.8 is not supported (see [#16](https://github.com/michaelhyatt/elastic-apm-mule3-agent/issues/16)).
+* Mule 3.8 is supported (see [#16](https://github.com/michaelhyatt/elastic-apm-mule3-agent/issues/16)). Requires different dependency, see Mule 3.8 and 3.9.
 * Only captures input and output properties, no flowVars at this stage.
 * Compatible with Elastic stack versions including APM 7.x and 6.5+ and uses APM Java client v1.6.0.
 * Elastic APM - https://www.elastic.co/solutions/apm
