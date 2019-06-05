@@ -19,11 +19,13 @@ Mule 3.9 introduced compatibility breaking changes in some of the interfaces. Al
 
 ### Get the jar from the release you are after
 Go to the [Releases](https://github.com/michaelhyatt/elastic-apm-mule3-agent/releases) tab in github abd download the jar file. Then, install it into your local Maven repo:
+
 Mule 3.9:
 ```
 mvn install:install-file -Dfile=<path-to-file> -DgroupId=co.elastic.apm \
     -DartifactId=apm-mule3-agent -Dversion=1.6.3 -Dpackaging=jar
 ```
+
 Mule 3.8:
 ```
 mvn install:install-file -Dfile=<path-to-file> -DgroupId=co.elastic.apm \
@@ -34,6 +36,7 @@ mvn install:install-file -Dfile=<path-to-file> -DgroupId=co.elastic.apm \
 Download the code by `git clone https://github.com/michaelhyatt/elastic-apm-mule3-agent`. Install the jar in your Maven repo by `mvn install -Pjar`.
 
 ### Don't forget to add the following dependency to your Mule project POM file:
+
 Mule 3.9:
 ```xml
 <dependency>
@@ -42,6 +45,7 @@ Mule 3.9:
     <version>1.6.3</version>
 </dependency>
 ```
+
 Mule 3.8:
 ```xml
 <dependency>
