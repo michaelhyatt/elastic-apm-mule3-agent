@@ -47,3 +47,4 @@ flows/
 target/*
 src/main/api/.repository/ 
 /target/
+/.DS_Store
