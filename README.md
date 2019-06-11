@@ -14,16 +14,18 @@ Example Canvas visualisation (built for `example-app`, see `kibana-objs` folder)
 
 ## Setup
 
-### Inportant: Mule 3.8 and 3.9
+### Important: Mule 3.8 and 3.9
 Mule 3.9 introduced compatibility breaking changes in some of the interfaces. Also, Mule 3.8 support was added after I built the agent for Mule 3.9, so to work with Mule 3.8 all the dependencies have to be named as `apm-mule3.8-agent` for Mule 3.8 versions, and `apm-mule3-agent` for Mule 3.9 versions.
 
 ### Get the jar from the release you are after
 Go to the [Releases](https://github.com/michaelhyatt/elastic-apm-mule3-agent/releases) tab in github abd download the jar file. Then, install it into your local Maven repo:
+
 Mule 3.9:
 ```
 mvn install:install-file -Dfile=<path-to-file> -DgroupId=co.elastic.apm \
     -DartifactId=apm-mule3-agent -Dversion=1.6.3 -Dpackaging=jar
 ```
+
 Mule 3.8:
 ```
 mvn install:install-file -Dfile=<path-to-file> -DgroupId=co.elastic.apm \
@@ -34,6 +36,7 @@ mvn install:install-file -Dfile=<path-to-file> -DgroupId=co.elastic.apm \
 Download the code by `git clone https://github.com/michaelhyatt/elastic-apm-mule3-agent`. Install the jar in your Maven repo by `mvn install -Pjar`.
 
 ### Don't forget to add the following dependency to your Mule project POM file:
+
 Mule 3.9:
 ```xml
 <dependency>
@@ -42,6 +45,7 @@ Mule 3.9:
     <version>1.6.3</version>
 </dependency>
 ```
+
 Mule 3.8:
 ```xml
 <dependency>
@@ -130,9 +134,8 @@ The agent supports distributed tracing by propagating the trace context in prope
 
 ## Things to know and consider
 * Requires Maven 3.x to build jar file.
-* Works with both, Mule 3.9.x CE and EE. Built with Mule CE 3.9.0 and tested with EE 3.9.0.
-* Only supports Mule 3.9.x at this stage.
-* Mule 3.8 is supported (see [#16](https://github.com/michaelhyatt/elastic-apm-mule3-agent/issues/16)). Requires different dependency, see Mule 3.8 and 3.9.
+* Works with both, Mule 3.9 and 3.8, CE and EE.
+* Mule 3.8 requires separate dependency, as per above.
 * Only captures input and output properties, no flowVars at this stage.
 * Compatible with Elastic stack versions including APM 7.x and 6.5+ and uses APM Java client v1.6.0.
 * Elastic APM - https://www.elastic.co/solutions/apm
