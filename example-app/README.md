@@ -1,7 +1,7 @@
 # Example application
 
 ## INFO
-The application is running in Docker using docker-compose. The application itself consists of component1 and component2 illustrating 2 Mule applications with top level flow in component1 calling a number of flows in component2 over http. Docker-compose brings up the Elastic stack (Kibana, Elasticsearch and APM server) that are wired to receive traces from component1 and component2.
+The application is running in Docker using docker-compose. The application itself consists of component1 and component2 illustrating 2 Mule applications with top level flow in component1 calling a number of flows in component2 over http. Docker-compose brings up the Elastic stack (Kibana, Elasticsearch and APM server) that are wired to receive traces from component1 and component2. The application also contains a steady state load generator invoking `component1` at about 10 requests per second rate to create a stable base load.
 
 ## Prerequisites
 Ensure docker daemon is configured with 8GB RAM. Also, if you use proxies, you may need to update `Dockerfile` to copy across your Maven settings.xml file.
