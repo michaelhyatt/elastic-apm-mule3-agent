@@ -10,8 +10,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 			class="co.elastic.apm.mule.listeners.DomainApplicationListener"
 			scope="singleton" />
 
-		<spring:bean id="apmClient" class="co.elastic.apm.mule.ApmClient"
-			init-method="initElasticApmInstrumentation" scope="singleton" />
+		<spring:bean id="apmClient" class="co.elastic.apm.mule.ApmClient" />
 		<spring:bean id="transactionStackMap" class="co.elastic.apm.mule.utils.SpanStore"
 			scope="singleton" />
 		<spring:bean id="transactionUtils"
