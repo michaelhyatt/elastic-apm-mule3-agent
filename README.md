@@ -1,4 +1,8 @@
 # Elastic APM Mule3 Agent
+
+[![CircleCI](https://circleci.com/gh/michaelhyatt/elastic-apm-mule3-agent.svg?style=svg)](https://circleci.com/gh/michaelhyatt/elastic-apm-mule3-agent)
+
+
 ## Intro
 This addon allows application performance monitoring of Mule 3.x components using Elastic APM. It provides a non-intrusive way to measure and benchmark individual flows and steps in Mule, adding the application performance monitoring of Mule components to reside in Elasticsearch alongside logs, metrics and other data. Mule APM agent supports distributed tracing allowing propagation of trace context using transport protocol meta-data, such as HTTP headers, and can present a unified view of the same trace spanning multiple components, built in Mule and other supported technologies. For more information about Elastic APM see [this link](https://www.elastic.co/solutions/apm). Also, feel free to check out the [sample app](example-app).
 
