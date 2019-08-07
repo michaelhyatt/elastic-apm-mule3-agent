@@ -28,8 +28,8 @@ public class FlowFunctionalTests extends AbstractApmFunctionalTestCase {
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
 		Mockito.verify(reporter, Mockito.times(0)).report(Mockito.any(ErrorCapture.class));
 
-		assertEquals("test1Flow", tx.getName().toString());
-		assertEquals("Logger", spans.get(0).getName().toString());
+		assertEquals("test1Flow", tx.getNameAsString());
+		assertEquals("Logger", spans.get(0).getNameAsString());
 	}
 
 	@Test
@@ -41,14 +41,14 @@ public class FlowFunctionalTests extends AbstractApmFunctionalTestCase {
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
 		Mockito.verify(reporter, Mockito.times(0)).report(Mockito.any(ErrorCapture.class));
 
-		assertEquals("parallelFlow", tx.getName().toString());
-		assertEquals("Logger1", spans.get(0).getName().toString());
-		assertEquals("Logger", spans.get(1).getName().toString());
-		assertEquals("Logger", spans.get(2).getName().toString());
-		assertEquals("Logger", spans.get(3).getName().toString());
-		assertEquals("Logger", spans.get(4).getName().toString());
-		assertEquals("Scatter-Gather", spans.get(5).getName().toString());
-		assertEquals("Logger4", spans.get(6).getName().toString());
+		assertEquals("parallelFlow", tx.getNameAsString());
+		assertEquals("Logger1", spans.get(0).getNameAsString());
+		assertEquals("Logger", spans.get(1).getNameAsString());
+		assertEquals("Logger", spans.get(2).getNameAsString());
+		assertEquals("Logger", spans.get(3).getNameAsString());
+		assertEquals("Logger", spans.get(4).getNameAsString());
+		assertEquals("Scatter-Gather", spans.get(5).getNameAsString());
+		assertEquals("Logger4", spans.get(6).getNameAsString());
 
 	}
 
@@ -69,7 +69,7 @@ public class FlowFunctionalTests extends AbstractApmFunctionalTestCase {
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
 		Mockito.verify(reporter, Mockito.times(0)).report(Mockito.any(ErrorCapture.class));
 
-		assertEquals("test1Flow", tx.getName().toString());
+		assertEquals("test1Flow", tx.getNameAsString());
 
 		// Logged property
 		assertEquals("testValue", tx.getContext().getLabel("in:testProp"));
@@ -77,7 +77,7 @@ public class FlowFunctionalTests extends AbstractApmFunctionalTestCase {
 		// Filtered out property
 		assertNull(tx.getContext().getLabel("in:not_testProp"));
 
-		assertEquals("Logger", spans.get(0).getName().toString());
+		assertEquals("Logger", spans.get(0).getNameAsString());
 	}
 
 	@Test
@@ -92,15 +92,15 @@ public class FlowFunctionalTests extends AbstractApmFunctionalTestCase {
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
 		Mockito.verify(reporter, Mockito.times(0)).report(Mockito.any(ErrorCapture.class));
 
-		assertEquals("test2Flow", tx.getName().toString());
+		assertEquals("test2Flow", tx.getNameAsString());
 
-		assertEquals("Logger", spans.get(0).getName().toString());
+		assertEquals("Logger", spans.get(0).getNameAsString());
 		assertEquals("logger", spans.get(0).getType().toString());
-		assertEquals("Groovy", spans.get(1).getName().toString());
+		assertEquals("Groovy", spans.get(1).getNameAsString());
 		assertEquals("scripting:component", spans.get(1).getType().toString());
-		assertEquals("VM", spans.get(2).getName().toString());
+		assertEquals("VM", spans.get(2).getNameAsString());
 		assertEquals("vm:outbound-endpoint", spans.get(2).getType().toString());
-		assertEquals("Property", spans.get(3).getName().toString());
+		assertEquals("Property", spans.get(3).getNameAsString());
 		assertEquals("set-property", spans.get(3).getType().toString());
 
 		assertEquals("201", tx.getContext().getLabel("out:http.response"));

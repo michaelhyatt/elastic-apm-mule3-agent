@@ -10,6 +10,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.mule.api.MuleEvent;
 import org.mule.api.MuleMessage;
 import org.mule.api.transport.PropertyScope;
+import org.mule.module.http.internal.ParameterMap;
 
 import co.elastic.apm.agent.impl.error.ErrorCapture;
 import co.elastic.apm.agent.impl.transaction.Span;
@@ -23,6 +24,7 @@ public class ApikitFunctionalTests extends AbstractApmFunctionalTestCase {
 	public void testAPIKitFlow() throws Exception {
 
 		MuleMessage message = getTestMuleMessage();
+		message.setProperty("http.uri.params", new ParameterMap(), PropertyScope.INBOUND);
 		message.setProperty("http.listener.path", "/api/*", PropertyScope.INBOUND);
 		message.setProperty("http.method", "GET", PropertyScope.INBOUND);
 		message.setProperty("host", "localhost", PropertyScope.INBOUND);
@@ -35,8 +37,8 @@ public class ApikitFunctionalTests extends AbstractApmFunctionalTestCase {
 		Mockito.verify(reporter, Mockito.times(0)).report(Mockito.any(ErrorCapture.class));
 		
 		assertTrue(response.getMessage().getPayload().toString().contains("Hello world"));
-		assertEquals("api-kit-test-main", tx.getName().toString());
-		assertEquals("Set Payload", spans.get(0).getName().toString());
+		assertEquals("api-kit-test-main", tx.getNameAsString());
+		assertEquals("Set Payload", spans.get(0).getNameAsString());
 
 	}
 

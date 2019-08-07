@@ -35,8 +35,8 @@ public class ApikitFunctionalTests extends AbstractApmFunctionalTestCase {
 		Mockito.verify(reporter, Mockito.times(0)).report(Mockito.any(ErrorCapture.class));
 		
 		assertTrue(response.getMessage().getPayload().toString().contains("Hello world"));
-		assertEquals("api-kit-test-main", tx.getName().toString());
-		assertEquals("Set Payload", spans.get(0).getName().toString());
+		assertEquals("api-kit-test-main", tx.getNameAsString());
+		assertEquals("Set Payload", spans.get(0).getNameAsString());
 
 	}
 

@@ -31,12 +31,12 @@ public class FlowvarFunctionalTests extends AbstractApmFunctionalTestCase {
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
 		Mockito.verify(reporter, Mockito.times(0)).report(Mockito.any(ErrorCapture.class));
 
-		assertEquals("testflowvar1Flow", tx.getName().toString());
+		assertEquals("testflowvar1Flow", tx.getNameAsString());
 
-		assertEquals("Variable", spans.get(0).getName().toString());
-		assertEquals("Variable", spans.get(1).getName().toString());
-		assertEquals("Variable", spans.get(2).getName().toString());
-		assertEquals("Logger", spans.get(3).getName().toString());
+		assertEquals("Variable", spans.get(0).getNameAsString());
+		assertEquals("Variable", spans.get(1).getNameAsString());
+		assertEquals("Variable", spans.get(2).getNameAsString());
+		assertEquals("Logger", spans.get(3).getNameAsString());
 
 		assertEquals("123", spans.get(3).getContext().getLabel("flowVar:var1"));
 		assertEquals("456", spans.get(3).getContext().getLabel("flowVar:var2"));

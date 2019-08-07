@@ -32,9 +32,9 @@ public class ExceptionFunctionalTests extends AbstractApmFunctionalTestCase {
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
 		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(ErrorCapture.class));
 
-		assertEquals("exception1Flow", tx.getName().toString());
+		assertEquals("exception1Flow", tx.getNameAsString());
 
-		assertEquals("HTTP", spans.get(0).getName().toString());
+		assertEquals("HTTP", spans.get(0).getNameAsString());
 		String expected = "Error sending HTTP request";
 		assertEquals(expected, errors.get(0).getException().getMessage().subSequence(0, expected.length()));
 
