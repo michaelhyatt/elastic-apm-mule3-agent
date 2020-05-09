@@ -2,22 +2,12 @@
   <classpathentry kind="src" path="src/main/resources" excluding="**/*.java"/>
   <classpathentry kind="src" path="src/main/domain" excluding="**/*.java"/>
   <classpathentry kind="output" path="target/classes"/>
-  <classpathentry kind="var" path="M2_REPO/co/elastic/apm/apm-agent-api/1.7.0/apm-agent-api-1.7.0.jar" sourcepath="M2_REPO/co/elastic/apm/apm-agent-api/1.7.0/apm-agent-api-1.7.0-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/Users/axolotl/.m2/repository/co/elastic/apm/apm-agent-api/1.7.0/apm-agent-api-1.7.0-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/co/elastic/apm/apm-agent-attach/1.7.0/apm-agent-attach-1.7.0.jar" sourcepath="M2_REPO/co/elastic/apm/apm-agent-attach/1.7.0/apm-agent-attach-1.7.0-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/Users/axolotl/.m2/repository/co/elastic/apm/apm-agent-attach/1.7.0/apm-agent-attach-1.7.0-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/co/elastic/apm/apm-mule3-agent/1.7.0/apm-mule3-agent-1.7.0.jar"/>
-  <classpathentry kind="var" path="M2_REPO/co/elastic/apm/elastic-apm-agent/1.7.0/elastic-apm-agent-1.7.0.jar" sourcepath="M2_REPO/co/elastic/apm/elastic-apm-agent/1.7.0/elastic-apm-agent-1.7.0-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/Users/axolotl/.m2/repository/co/elastic/apm/elastic-apm-agent/1.7.0/elastic-apm-agent-1.7.0-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/co/elastic/apm/apm-agent-api/1.15.0/apm-agent-api-1.15.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/co/elastic/apm/apm-agent-attach/1.15.0/apm-agent-attach-1.15.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/co/elastic/apm/apm-mule3-agent/1.15.0/apm-mule3-agent-1.15.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/co/elastic/apm/elastic-apm-agent/1.15.0/elastic-apm-agent-1.15.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/net/java/dev/jna/jna/5.3.1/jna-5.3.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/net/java/dev/jna/jna-platform/5.3.1/jna-platform-5.3.1.jar"/>
   <classpathentry kind="con" path="MULE_RUNTIME"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>
