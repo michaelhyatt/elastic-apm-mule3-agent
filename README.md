@@ -1,4 +1,4 @@
-# Elastic APM Mule3 Agent
+1.16.0# Elastic APM Mule3 Agent
 
 [![CircleCI](https://circleci.com/gh/michaelhyatt/elastic-apm-mule3-agent.svg?style=svg)](https://circleci.com/gh/michaelhyatt/elastic-apm-mule3-agent)
 
@@ -27,13 +27,13 @@ Go to the [Releases](https://github.com/michaelhyatt/elastic-apm-mule3-agent/rel
 Mule 3.9:
 ```
 mvn install:install-file -Dfile=<path-to-file> -DgroupId=co.elastic.apm \
-    -DartifactId=apm-mule3-agent -Dversion=1.15.0 -Dpackaging=jar
+    -DartifactId=apm-mule3-agent -Dversion=1.16.0 -Dpackaging=jar
 ```
 
 Mule 3.8:
 ```
 mvn install:install-file -Dfile=<path-to-file> -DgroupId=co.elastic.apm \
-    -DartifactId=apm-mule3.8-agent -Dversion=1.15.0 -Dpackaging=jar
+    -DartifactId=apm-mule3.8-agent -Dversion=1.16.0 -Dpackaging=jar
 ```
 
 ### Or, get the code and build it from scratch
@@ -46,7 +46,7 @@ Mule 3.9:
 <dependency>
     <groupId>co.elastic.apm</groupId>
     <artifactId>apm-mule3-agent</artifactId>
-    <version>1.15.0</version>
+    <version>1.16.0</version>
 </dependency>
 ```
 
@@ -55,7 +55,7 @@ Mule 3.8:
 <dependency>
     <groupId>co.elastic.apm</groupId>
     <artifactId>apm-mule3.8-agent</artifactId>
-    <version>1.15.0</version>
+    <version>1.16.0</version>
 </dependency>
 ```
 
