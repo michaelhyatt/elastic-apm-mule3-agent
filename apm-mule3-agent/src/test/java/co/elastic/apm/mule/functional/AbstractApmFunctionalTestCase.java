@@ -12,6 +12,7 @@ import org.mockito.stubbing.Answer;
 import org.mule.tck.junit4.FunctionalTestCase;
 
 import co.elastic.apm.agent.bci.ElasticApmAgent;
+import co.elastic.apm.agent.impl.ElasticApmTracer;
 import co.elastic.apm.agent.impl.ElasticApmTracerBuilder;
 import co.elastic.apm.agent.impl.error.ErrorCapture;
 import co.elastic.apm.agent.impl.transaction.Span;
@@ -65,11 +66,12 @@ public abstract class AbstractApmFunctionalTestCase extends FunctionalTestCase {
 				return null;
 			}
 		}).when(reporter).report(Mockito.any(ErrorCapture.class));
-		
+
 		Mockito.doNothing().when(reporter).scheduleMetricReporting(Mockito.any(), Mockito.anyLong(), Mockito.any());
 
-		ElasticApmAgent.initInstrumentation(new ElasticApmTracerBuilder().reporter(reporter).build(),
-				ByteBuddyAgent.install());
+		ElasticApmTracer tracer = new ElasticApmTracerBuilder().reporter(reporter).build();
+		tracer.start();
+		ElasticApmAgent.initInstrumentation(tracer, ByteBuddyAgent.install());
 
 		// Skip real initialisation so it is not triggered in the flows for tests
 		ApmClient.setInitialised();

@@ -1,6 +1,7 @@
 package co.elastic.apm.mule.utils;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.log4j.MDC;
 import org.mule.api.MessagingException;
 import org.mule.api.MuleEvent;
 import org.mule.api.MuleMessage;
@@ -22,6 +23,9 @@ import co.elastic.apm.api.Transaction;
  */
 public class TransactionUtils {
 
+	private static final String MDC_TRANSACTION_ID = "transaction.id";
+	private static final String MDC_TRACE_ID = "trace.id";
+	
 	@Autowired
 	private SpanStore txMap;
 
@@ -56,6 +60,9 @@ public class TransactionUtils {
 
 		txMap.storeTransactionOrSpan(messageId, notification, transaction);
 
+		if (isLogCorrelationEnabled())
+			addMdcHeaders(transaction);
+
 	}
 
 	/**
@@ -82,7 +89,25 @@ public class TransactionUtils {
 				transaction.captureException(exceptionThrown);
 
 			transaction.end(notification.getTimestamp() * 1_000);
+
+			if (isLogCorrelationEnabled())
+				removeMdcHeaders();
 		}
+	}
+
+	private boolean isLogCorrelationEnabled() {
+		return "true".equals(System.getProperty("elastic.apm.enable_log_correlation"))
+				|| "true".equals(System.getenv("ELASTIC_APM_ENABLE_LOG_CORRELATION"));
+	}
+
+	private void addMdcHeaders(Transaction transaction) {
+		MDC.put(MDC_TRACE_ID, transaction.getTraceId());
+		MDC.put(MDC_TRANSACTION_ID, transaction.getId());
+	}
+
+	private void removeMdcHeaders() {
+		MDC.remove(MDC_TRACE_ID);
+		MDC.remove(MDC_TRANSACTION_ID);
 	}
 
 	private MuleMessage getMuleMessage(PipelineMessageNotification notification) {
