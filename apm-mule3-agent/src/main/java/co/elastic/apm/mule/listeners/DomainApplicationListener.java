@@ -64,12 +64,9 @@ public class DomainApplicationListener implements ApplicationListener<ContextRef
 					transactionUtils.startTransactionIfNone(notification);
 					break;
 
+				case PipelineMessageNotification.PROCESS_COMPLETE:
 				case PipelineMessageNotification.PROCESS_END:
 					transactionUtils.endTransactionIfNeeded(notification);
-					break;
-
-				case PipelineMessageNotification.PROCESS_COMPLETE:
-					// Ignored, as it is skipped when flow exception is thrown
 					break;
 				}
 			}
