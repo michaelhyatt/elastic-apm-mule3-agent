@@ -1,4 +1,4 @@
-1.16.0# Elastic APM Mule3 Agent
+# Elastic APM Mule3 Agent
 
 [![CircleCI](https://circleci.com/gh/michaelhyatt/elastic-apm-mule3-agent.svg?style=svg)](https://circleci.com/gh/michaelhyatt/elastic-apm-mule3-agent)
 
