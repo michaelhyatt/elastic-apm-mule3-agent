@@ -67,10 +67,10 @@ public abstract class AbstractApmFunctionalTestCase extends FunctionalTestCase {
 			}
 		}).when(reporter).report(Mockito.any(ErrorCapture.class));
 
-		Mockito.doNothing().when(reporter).scheduleMetricReporting(Mockito.any(), Mockito.anyLong(), Mockito.any());
+//		Mockito.doNothing().when(reporter).scheduleMetricReporting(Mockito.any(), Mockito.anyLong(), Mockito.any());
 
 		ElasticApmTracer tracer = new ElasticApmTracerBuilder().reporter(reporter).build();
-		tracer.start();
+		tracer.start(true);
 		ElasticApmAgent.initInstrumentation(tracer, ByteBuddyAgent.install());
 
 		// Skip real initialisation so it is not triggered in the flows for tests
