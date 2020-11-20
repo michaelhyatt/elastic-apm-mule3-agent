@@ -60,7 +60,7 @@ public class SpanUtils {
 	}
 
 	private void updateSpanTags(Span span, ImmutablePair<String, Object> pair) {
-		span.addLabel("flowVar:" + pair.getLeft(), pair.getRight().toString());
+		span.setLabel("flowVar:" + pair.getLeft(), pair.getRight().toString());
 	}
 
 	private String getMessageId(MuleMessage message) {
