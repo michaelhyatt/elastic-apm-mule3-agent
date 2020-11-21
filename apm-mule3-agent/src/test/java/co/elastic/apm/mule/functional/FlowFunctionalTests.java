@@ -117,12 +117,12 @@ public class FlowFunctionalTests extends AbstractApmFunctionalTestCase {
 
 		assertEquals("objstore-testFlow", tx.getNameAsString());
 
-		assertEquals("StoreMessageProcessorDebuggable", spans.get(0).getNameAsString());
-		assertEquals("storemessageprocessordebuggable", spans.get(0).getType().toString());
-		assertEquals("ContainsMessageProcessorDebuggable", spans.get(1).getNameAsString());
-		assertEquals("containsmessageprocessordebuggable", spans.get(1).getType().toString());
-		assertEquals("RemoveMessageProcessorDebuggable", spans.get(2).getNameAsString());
-		assertEquals("removemessageprocessordebuggable", spans.get(2).getType().toString());
+		assertEquals("StoreMessageProcessor", spans.get(0).getNameAsString());
+		assertEquals("storemessageprocessor", spans.get(0).getType().toString());
+		assertEquals("ContainsMessageProcessor", spans.get(1).getNameAsString());
+		assertEquals("containsmessageprocessor", spans.get(1).getType().toString());
+		assertEquals("RemoveMessageProcessor", spans.get(2).getNameAsString());
+		assertEquals("removemessageprocessor", spans.get(2).getType().toString());
 	}
 
 	@Override
