@@ -6,7 +6,7 @@
 	<groupId>co.elastic.apm</groupId>
 	<artifactId>apm-mule3-agent</artifactId>
 
-	<version>1.17.0</version>
+	<version>1.19.0</version>
 	<packaging>${packaging}</packaging>
 	<name>Mule apm-mule3-agent Application</name>
 
@@ -35,7 +35,7 @@
 		<mule.version>3.9.0</mule.version>
 		<mule.tools.version>1.2</mule.tools.version>
 
-		<elastic-apm.version>1.17.0</elastic-apm.version>
+		<elastic-apm.version>1.19.0</elastic-apm.version>
 		<version.byte-buddy>1.10.8</version.byte-buddy>
 
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -222,6 +222,24 @@
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-module-http</artifactId>
 			<version>${mule.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-module-apikit</artifactId>
+			<version>${mule.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-module-devkit-support</artifactId>
+			<version>${mule.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-module-objectstore</artifactId>
+			<version>1.3.3</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

@@ -56,7 +56,7 @@ public class TransactionUtils {
 		if (PropertyUtils.isInputPropertyCaptureEnabled())
 			PropertyUtils.getInputProperties(muleMessage).forEach(pair -> updateProperties(pair, transaction, "in"));
 
-		transaction.addLabel("messageId", messageId);
+		transaction.setLabel("messageId", messageId);
 
 		txMap.storeTransactionOrSpan(messageId, notification, transaction);
 
@@ -122,17 +122,17 @@ public class TransactionUtils {
 
 		if (value instanceof String) {
 			stringValue = (String) value;
-			transaction.addLabel(prefix + ":" + key, stringValue);
+			transaction.setLabel(prefix + ":" + key, stringValue);
 
 		} else if (value instanceof ParameterMap) {
 			ParameterMap map = (ParameterMap) value;
 
 			map.keySet().stream()
-					.forEach((key2) -> transaction.addLabel(prefix + ":" + key + ":" + key2, map.get(key2)));
+					.forEach((key2) -> transaction.setLabel(prefix + ":" + key + ":" + key2, map.get(key2)));
 
 		} else {
 			stringValue = "???";
-			transaction.addLabel(prefix + ":" + key, stringValue);
+			transaction.setLabel(prefix + ":" + key, stringValue);
 		}
 
 	}
