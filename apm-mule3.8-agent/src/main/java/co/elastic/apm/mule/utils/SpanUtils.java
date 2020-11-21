@@ -2,10 +2,12 @@ package co.elastic.apm.mule.utils;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.mule.api.MuleMessage;
+import org.mule.api.transformer.DataType;
 import org.mule.api.transport.PropertyScope;
 import org.mule.context.notification.MessageProcessorNotification;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import co.elastic.apm.api.HeaderInjector;
 import co.elastic.apm.api.Span;
 
 /**
@@ -36,8 +38,18 @@ public class SpanUtils {
 
 		// Update MuleMessage with distributed tracing properties set into
 		// outboundProperty
-		span.injectTraceHeaders(
-				(headerName, headerValue) -> message.setProperty(headerName, headerValue, PropertyScope.OUTBOUND));
+		span.injectTraceHeaders(new HeaderInjector() {
+			
+			@Override
+			public void addHeader(String headerName, String headerValue) {
+				try {
+					message.setProperty(headerName, headerValue, PropertyScope.OUTBOUND, DataType.STRING_DATA_TYPE);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 
 		createFlowvarSpanTags(notification, span, processorName);
 
