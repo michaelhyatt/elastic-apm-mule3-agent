@@ -5,6 +5,7 @@ import javax.xml.namespace.QName;
 import org.mule.api.AnnotatedObject;
 import org.mule.api.MuleEvent;
 import org.mule.api.context.notification.ServerNotification;
+import org.mule.api.processor.MessageProcessor;
 import org.mule.context.notification.MessageProcessorNotification;
 
 /**
@@ -19,12 +20,12 @@ public class AnnotatedObjectUtils {
 
 	public static String getProcessorName(MessageProcessorNotification notification) {
 		AnnotatedObject annotObj;
-		Object obj = notification.getProcessor();
+		MessageProcessor obj = notification.getProcessor();
 		
 		try {
 			annotObj = (AnnotatedObject) obj;
 		} catch (ClassCastException e) {
-			return obj.getClass().getSimpleName().toLowerCase();
+			return obj.getClass().getSimpleName();
 		}
 		
 		QName qName = new QName(HTTP_WWW_MULESOFT_ORG_SCHEMA_MULE_DOCUMENTATION, NAME);

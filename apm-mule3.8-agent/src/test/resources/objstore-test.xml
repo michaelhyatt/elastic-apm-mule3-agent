@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:objectstore="http://www.mulesoft.org/schema/mule/objectstore" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/objectstore http://www.mulesoft.org/schema/mule/objectstore/current/mule-objectstore.xsd">
+	<objectstore:config name="ObjectStore__Connector" doc:name="ObjectStore: Connector"/>
+	<flow name="objstore-testFlow">
+		<objectstore:store config-ref="ObjectStore__Connector" key="abc" value-ref="#[123]" overwrite="true" doc:name="ObjectStore"/>
+		<objectstore:contains config-ref="ObjectStore__Connector" key="abc" doc:name="ObjectStore"/>
+		<objectstore:remove config-ref="ObjectStore__Connector" key="abc" ignoreNotExists="true" doc:name="ObjectStore"/>
+	</flow>
+</mule>

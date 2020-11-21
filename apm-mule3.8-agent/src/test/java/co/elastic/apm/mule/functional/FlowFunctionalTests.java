@@ -106,9 +106,28 @@ public class FlowFunctionalTests extends AbstractApmFunctionalTestCase {
 		assertEquals("201", tx.getContext().getLabel("out:http.response"));
 	}
 
+	@Test
+	public void testFlowWithObjstore() throws Exception {
+
+		runFlow("objstore-testFlow");
+
+		Mockito.verify(reporter, Mockito.times(3)).report(Mockito.any(Span.class));
+		Mockito.verify(reporter, Mockito.times(1)).report(Mockito.any(Transaction.class));
+		Mockito.verify(reporter, Mockito.times(0)).report(Mockito.any(ErrorCapture.class));
+
+		assertEquals("objstore-testFlow", tx.getNameAsString());
+
+		assertEquals("StoreMessageProcessorDebuggable", spans.get(0).getNameAsString());
+		assertEquals("storemessageprocessordebuggable", spans.get(0).getType().toString());
+		assertEquals("ContainsMessageProcessorDebuggable", spans.get(1).getNameAsString());
+		assertEquals("containsmessageprocessordebuggable", spans.get(1).getType().toString());
+		assertEquals("RemoveMessageProcessorDebuggable", spans.get(2).getNameAsString());
+		assertEquals("removemessageprocessordebuggable", spans.get(2).getType().toString());
+	}
+
 	@Override
 	protected String getConfigResources() {
-		return "test_tracer.xml, test1.xml, test2.xml, parallel_flow.xml";
+		return "test_tracer.xml, test1.xml, test2.xml, parallel_flow.xml, objstore-test.xml";
 	}
 
 }

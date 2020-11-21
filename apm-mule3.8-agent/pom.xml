@@ -217,7 +217,18 @@
 			<version>${mule.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-module-devkit-support</artifactId>
+			<version>${mule.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-module-objectstore</artifactId>
+			<version>2.2.4</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- 3.8.1 is missing this, but 3.8.5 has it -->
 		<dependency>
