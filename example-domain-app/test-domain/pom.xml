@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>co.elastic.apm</groupId>
 			<artifactId>apm-mule3-agent</artifactId>
-			<version>1.19.0</version>
+			<version>1.21.0</version>
 		</dependency>
 	</dependencies>
 

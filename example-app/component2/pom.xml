@@ -16,7 +16,7 @@
 		<mule.version>3.9.0</mule.version>
 		<mule.tools.version>1.7</mule.tools.version>
 		
-		<apm-mule3-agent.version>1.19.0</apm-mule3-agent.version>
+		<apm-mule3-agent.version>1.21.0</apm-mule3-agent.version>
 		
 		<maven.test.skip>true</maven.test.skip>
 	</properties>
