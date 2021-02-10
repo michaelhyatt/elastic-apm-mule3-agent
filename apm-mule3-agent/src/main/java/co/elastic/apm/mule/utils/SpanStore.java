@@ -1,5 +1,6 @@
 package co.elastic.apm.mule.utils;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,7 +21,7 @@ import co.elastic.apm.api.Span;
  */
 public class SpanStore {
 
-	private Map<String, Map<Optional<MessageProcessor>, Span>> map = new ConcurrentHashMap<>();
+	private Map<String, Map<Optional<MessageProcessor>, Span>> map = new ConcurrentHashMap<>(80, 0.9f, 1);
 
 	/**
 	 * Store a {@link co.elastic.apm.api.Span} or a
@@ -39,7 +40,7 @@ public class SpanStore {
 		Map<Optional<MessageProcessor>, Span> innerMap = map.get(key);
 
 		if (innerMap == null)
-			innerMap = new ConcurrentHashMap<>();
+			innerMap = new HashMap<>();
 
 		innerMap.put(key2, span);
 		map.put(key, innerMap);
