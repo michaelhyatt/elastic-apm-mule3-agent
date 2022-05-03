@@ -7,6 +7,12 @@ The application is running in Docker using docker-compose. The application itsel
 Ensure docker daemon is configured with 8GB RAM. Also, if you use proxies, you may need to update `Dockerfile` to copy across your Maven settings.xml file.
 
 ## Setup
+Before build, set the following environment variables, if building on Mac:
+```
+export DOCKER_BUILDKIT=0
+export COMPOSE_DOCKER_CLI_BUILD=0
+```
+
 In directory `example-app`, start the application by running `TAG=6.6.1 docker-compose up` that includes the desired version of the ELK stack. The application will download a whole lot of maven dependencies in the first run, so give it some time. Once up, you will see the following log entries telling that it is fully up:
 ```
 apm-server-apm-mule | 2019-02-01T12:39:26.995Z	INFO	[request]	beater/common_handlers.go:272	handled request	{"request_id": "2eed0618-6b6f-4c5a-9c39-6572c6bd810b", "method": "POST", "URL": "/intake/v2/events", "content_length": -1, "remote_address": "172.23.0.6", "user-agent": "java-agent/1.3.0", "response_code": 202}

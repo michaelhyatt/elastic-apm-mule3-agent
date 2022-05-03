@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>co.elastic.apm</groupId>
 	<artifactId>apm-mule3-agent</artifactId>
 
-	<version>1.19.0</version>
+	<version>1.19.1</version>
 	<packaging>${packaging}</packaging>
 	<name>Mule apm-mule3-agent Application</name>
 
 	<profiles>
 		<profile>
 			<id>mule</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<packaging>mule</packaging>
 			</properties>
 		</profile>
 		<profile>
 			<id>jar</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<packaging>jar</packaging>
 			</properties>
@@ -41,7 +40,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 
-		<maven.test.skip>true</maven.test.skip>
+		<maven.test.skip>false</maven.test.skip>
 	</properties>
 
 	<build>
@@ -102,8 +101,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.2</version>
 				<configuration>
 					<useSystemClassLoader>false</useSystemClassLoader>
+					<skipTests>false</skipTests>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -164,12 +165,6 @@
 		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-module-xml</artifactId>
-			<version>${mule.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mule.modules</groupId>
-			<artifactId>mule-module-apikit</artifactId>
 			<version>${mule.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -255,8 +250,11 @@
 		<repository>
 			<id>mulesoft-releases</id>
 			<name>MuleSoft Releases Repository</name>
-			<url>http://repository.mulesoft.org/releases/</url>
+			<url>https://repository.mulesoft.org/releases/</url>
 			<layout>default</layout>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
 	<pluginRepositories>
@@ -264,9 +262,9 @@
 			<id>mulesoft-release</id>
 			<name>mulesoft release repository</name>
 			<layout>default</layout>
-			<url>http://repository.mulesoft.org/releases/</url>
+			<url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
 			<snapshots>
-				<enabled>false</enabled>
+				<enabled>true</enabled>
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>

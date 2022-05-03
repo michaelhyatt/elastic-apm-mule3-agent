@@ -1,8 +1,10 @@
 package co.elastic.apm.mule.utils;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.WeakHashMap;
 
 import org.mule.api.context.notification.ServerNotification;
 import org.mule.api.processor.MessageProcessor;
@@ -20,7 +22,7 @@ import co.elastic.apm.api.Span;
  */
 public class SpanStore {
 
-	private Map<String, Map<Optional<MessageProcessor>, Span>> map = new ConcurrentHashMap<>();
+	private Map<String, Map<Optional<MessageProcessor>, Span>> map = Collections.synchronizedMap(new WeakHashMap<>());
 
 	/**
 	 * Store a {@link co.elastic.apm.api.Span} or a
@@ -28,9 +30,9 @@ public class SpanStore {
 	 * {@link String} key
 	 * 
 	 * @param key
-	 *            rootMessageId from MuleMessage
+	 *             rootMessageId from MuleMessage
 	 * @param span
-	 *            Span or Transaction object to store
+	 *             Span or Transaction object to store
 	 */
 	public void storeTransactionOrSpan(String key, ServerNotification notification, Span span) {
 
@@ -39,7 +41,7 @@ public class SpanStore {
 		Map<Optional<MessageProcessor>, Span> innerMap = map.get(key);
 
 		if (innerMap == null)
-			innerMap = new ConcurrentHashMap<>();
+			innerMap = new HashMap<>();
 
 		innerMap.put(key2, span);
 		map.put(key, innerMap);
@@ -59,10 +61,10 @@ public class SpanStore {
 
 		Map<Optional<MessageProcessor>, Span> stack = map.get(key);
 		Span span = stack.remove(key2);
-		
+
 		if (stack.size() == 0)
 			map.remove(key);
-		
+
 		return span;
 	}
 
@@ -72,7 +74,7 @@ public class SpanStore {
 	 * can throw NullPointerException, if called on an empty map.
 	 * 
 	 * @param notification
-	 *            typically, rootMessageId from MuleMessage
+	 *                     typically, rootMessageId from MuleMessage
 	 * @return
 	 */
 	public int depth(String key) {
@@ -97,7 +99,7 @@ public class SpanStore {
 	private Optional<MessageProcessor> getKey2(ServerNotification notification) {
 
 		Optional<MessageProcessor> key2 = Optional.empty();
-		
+
 		if (notification instanceof MessageProcessorNotification) {
 			MessageProcessor processor = ((MessageProcessorNotification) notification).getProcessor();
 			key2 = Optional.of(processor);

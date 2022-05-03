@@ -1,8 +1,10 @@
 package co.elastic.apm.mule.utils;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.WeakHashMap;
 
 import org.mule.api.context.notification.ServerNotification;
 import org.mule.api.processor.MessageProcessor;
@@ -20,7 +22,7 @@ import co.elastic.apm.api.Span;
  */
 public class SpanStore {
 
-	private Map<String, Map<Optional<MessageProcessor>, Span>> map = new ConcurrentHashMap<>();
+	private Map<String, Map<Optional<MessageProcessor>, Span>> map = Collections.synchronizedMap(new WeakHashMap<>());
 
 	/**
 	 * Store a {@link co.elastic.apm.api.Span} or a
@@ -39,7 +41,7 @@ public class SpanStore {
 		Map<Optional<MessageProcessor>, Span> innerMap = map.get(key);
 
 		if (innerMap == null)
-			innerMap = new ConcurrentHashMap<>();
+			innerMap = new HashMap<>();
 
 		innerMap.put(key2, span);
 		map.put(key, innerMap);
