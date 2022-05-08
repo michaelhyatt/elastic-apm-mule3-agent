@@ -9,6 +9,7 @@ import java.util.WeakHashMap;
 import org.mule.api.context.notification.ServerNotification;
 import org.mule.api.processor.MessageProcessor;
 import org.mule.context.notification.MessageProcessorNotification;
+import org.python.modules.synchronize;
 
 import co.elastic.apm.api.Span;
 
@@ -22,7 +23,7 @@ import co.elastic.apm.api.Span;
  */
 public class SpanStore {
 
-	private Map<String, Map<Optional<MessageProcessor>, Span>> map = Collections.synchronizedMap(new WeakHashMap<>());
+	private static Map<String, Map<Optional<MessageProcessor>, Span>> map = Collections.synchronizedMap(new WeakHashMap<String, Map<Optional<MessageProcessor>, Span>>());
 
 	/**
 	 * Store a {@link co.elastic.apm.api.Span} or a
@@ -38,13 +39,15 @@ public class SpanStore {
 
 		Optional<MessageProcessor> key2 = getKey2(notification);
 
-		Map<Optional<MessageProcessor>, Span> innerMap = map.get(key);
+		synchronized(map) {
+			Map<Optional<MessageProcessor>, Span> innerMap = map.get(key);
 
-		if (innerMap == null)
-			innerMap = new HashMap<>();
+			if (innerMap == null)
+				innerMap = new HashMap<>();
 
-		innerMap.put(key2, span);
-		map.put(key, innerMap);
+			innerMap.put(key2, span);
+			map.put(key, innerMap);
+		}
 	}
 
 	/**
@@ -59,11 +62,17 @@ public class SpanStore {
 
 		Optional<MessageProcessor> key2 = getKey2(notification);
 
-		Map<Optional<MessageProcessor>, Span> stack = map.get(key);
-		Span span = stack.remove(key2);
+		Span span = null;
 
-		if (stack.size() == 0)
-			map.remove(key);
+		synchronized(map) {
+			Map<Optional<MessageProcessor>, Span> stack = map.get(key);
+			span = stack.remove(key2);
+
+			if (stack.size() == 0)
+				map.remove(key);
+			else
+				map.put(key, stack);
+		}
 
 		return span;
 	}
